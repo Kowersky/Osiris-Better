@@ -1,8 +1,10 @@
 #pragma once
 
 #include <algorithm>
+#include <cstddef>
 #include <cstdint>
 
+#include <CS2/Classes/Entities/C_BaseEntity.h>
 #include <CS2/Classes/Vector.h>
 #include <GameClient/Panorama/PanelFontParams.h>
 #include <GameClient/Panorama/PanelHandle.h>
@@ -43,16 +45,26 @@ public:
             return;
 
         constexpr auto kSmokeDuration = 18.0f;
+        constexpr auto kTickInterval = 1.0f / 64.0f;
 
         const auto curtime = hookContext.globalVars().curtime();
         if (!curtime.hasValue())
+            return;
+
+        const auto tickBegin = smokeProjectile.smokeEffectTickBegin();
+        if (!tickBegin.hasValue())
             return;
 
         const auto origin = smokeProjectile.baseEntity().absOrigin();
         if (!origin.hasValue())
             return;
 
-        showTimerAtPosition(origin.value(), kSmokeDuration * 0.5f, kSmokeDuration);
+        const auto startTime = static_cast<float>(tickBegin.value()) * kTickInterval;
+        const auto remaining = kSmokeDuration - (curtime.value() - startTime);
+        if (remaining <= 0.0f)
+            return;
+
+        showTimerAtPosition(origin.value(), remaining, kSmokeDuration);
     }
 
     template <typename BaseEntityType>
@@ -61,7 +73,9 @@ public:
         if (!hookContext.config().template getVariable<grenade_timer_vars::MolotovTimerEnabled>())
             return;
 
-        constexpr auto kMolotovDuration = 7.0f;
+        constexpr auto kTickInterval = 1.0f / 64.0f;
+        constexpr auto kOffsetFireLifetime = 0x1A50;
+        constexpr auto kOffsetFireEffectTickBegin = 0x1A5C;
 
         const auto curtime = hookContext.globalVars().curtime();
         if (!curtime.hasValue())
@@ -71,7 +85,22 @@ public:
         if (!origin.hasValue())
             return;
 
-        showTimerAtPosition(origin.value(), kMolotovDuration * 0.5f, kMolotovDuration);
+        auto* entityPtr = static_cast<cs2::C_BaseEntity*>(baseEntity);
+        if (!entityPtr)
+            return;
+
+        const auto fireLifetime = *reinterpret_cast<const float*>(reinterpret_cast<const std::byte*>(entityPtr) + kOffsetFireLifetime);
+        const auto fireTickBegin = *reinterpret_cast<const std::int32_t*>(reinterpret_cast<const std::byte*>(entityPtr) + kOffsetFireEffectTickBegin);
+
+        if (fireLifetime <= 0.0f || fireTickBegin <= 0)
+            return;
+
+        const auto startTime = static_cast<float>(fireTickBegin) * kTickInterval;
+        const auto remaining = fireLifetime - (curtime.value() - startTime);
+        if (remaining <= 0.0f)
+            return;
+
+        showTimerAtPosition(origin.value(), remaining, fireLifetime);
     }
 
     void endFrame() const noexcept
