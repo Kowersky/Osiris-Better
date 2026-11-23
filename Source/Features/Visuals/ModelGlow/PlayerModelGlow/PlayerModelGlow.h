@@ -67,6 +67,7 @@ public:
                 return playerColor.value().toHueFloat();
             [[fallthrough]];
         case TeamColor: return teamColorModeHue(playerPawn);
+        case VisibilityBased: return visibilityBasedColorModeHue(playerPawn);
         default: return {};
         }
     }
@@ -82,6 +83,13 @@ private:
     [[nodiscard]] auto& state() const noexcept
     {
         return hookContext.featuresStates().visualFeaturesStates.modelGlowState;
+    }
+
+    [[nodiscard]] Optional<color::Hue> visibilityBasedColorModeHue(auto&& playerPawn) const noexcept
+    {
+        const auto visibleHue = static_cast<color::HueInteger>(GET_CONFIG_VAR(model_glow_vars::VisibleHue));
+        const auto notVisibleHue = static_cast<color::HueInteger>(GET_CONFIG_VAR(model_glow_vars::NotVisibleHue));
+        return (playerPawn.isSpotted() ? visibleHue : notVisibleHue).toHueFloat();
     }
 
     [[nodiscard]] Optional<color::Hue> teamColorModeHue(auto&& playerPawn) const noexcept

@@ -90,6 +90,8 @@ private:
         configConversion.uint(u8"HighHealth", loadVariable<model_glow_vars::HighHealthHue>(), saveVariable<model_glow_vars::HighHealthHue>());
         configConversion.uint(u8"Enemy", loadVariable<model_glow_vars::EnemyHue>(), saveVariable<model_glow_vars::EnemyHue>());
         configConversion.uint(u8"Ally", loadVariable<model_glow_vars::AllyHue>(), saveVariable<model_glow_vars::AllyHue>());
+        configConversion.uint(u8"Visible", loadVariable<model_glow_vars::VisibleHue>(), saveVariable<model_glow_vars::VisibleHue>());
+        configConversion.uint(u8"NotVisible", loadVariable<model_glow_vars::NotVisibleHue>(), saveVariable<model_glow_vars::NotVisibleHue>());
         configConversion.uint(u8"Molotov", loadVariable<model_glow_vars::MolotovHue>(), saveVariable<model_glow_vars::MolotovHue>());
         configConversion.uint(u8"Flashbang", loadVariable<model_glow_vars::FlashbangHue>(), saveVariable<model_glow_vars::FlashbangHue>());
         configConversion.uint(u8"HEGrenade", loadVariable<model_glow_vars::HEGrenadeHue>(), saveVariable<model_glow_vars::HEGrenadeHue>());
@@ -125,6 +127,8 @@ private:
         configConversion.uint(u8"HighHealth", loadVariable<outline_glow_vars::HighHealthHue>(), saveVariable<outline_glow_vars::HighHealthHue>());
         configConversion.uint(u8"Enemy", loadVariable<outline_glow_vars::EnemyHue>(), saveVariable<outline_glow_vars::EnemyHue>());
         configConversion.uint(u8"Ally", loadVariable<outline_glow_vars::AllyHue>(), saveVariable<outline_glow_vars::AllyHue>());
+        configConversion.uint(u8"Visible", loadVariable<outline_glow_vars::VisibleHue>(), saveVariable<outline_glow_vars::VisibleHue>());
+        configConversion.uint(u8"NotVisible", loadVariable<outline_glow_vars::NotVisibleHue>(), saveVariable<outline_glow_vars::NotVisibleHue>());
         configConversion.uint(u8"Molotov", loadVariable<outline_glow_vars::MolotovHue>(), saveVariable<outline_glow_vars::MolotovHue>());
         configConversion.uint(u8"Flashbang", loadVariable<outline_glow_vars::FlashbangHue>(), saveVariable<outline_glow_vars::FlashbangHue>());
         configConversion.uint(u8"HEGrenade", loadVariable<outline_glow_vars::HEGrenadeHue>(), saveVariable<outline_glow_vars::HEGrenadeHue>());
@@ -158,6 +162,21 @@ private:
         configConversion.boolean(u8"HostagePickupIcon", loadVariable<player_info_vars::HostagePickupIconEnabled>(), saveVariable<player_info_vars::HostagePickupIconEnabled>());
         configConversion.boolean(u8"HostageRescueIcon", loadVariable<player_info_vars::HostageRescueIconEnabled>(), saveVariable<player_info_vars::HostageRescueIconEnabled>());
         configConversion.boolean(u8"BlindedIcon", loadVariable<player_info_vars::BlindedIconEnabled>(), saveVariable<player_info_vars::BlindedIconEnabled>());
+        configConversion.boolean(u8"PlayerName", loadVariable<player_info_vars::PlayerNameEnabled>(), saveVariable<player_info_vars::PlayerNameEnabled>());
+        configConversion.boolean(u8"HealthBar", loadVariable<player_info_vars::HealthBarEnabled>(), saveVariable<player_info_vars::HealthBarEnabled>());
+        configConversion.boolean(u8"PlayerDistance", loadVariable<player_info_vars::PlayerDistanceEnabled>(), saveVariable<player_info_vars::PlayerDistanceEnabled>());
+        configConversion.boolean(u8"EspBox", loadVariable<player_info_vars::EspBoxEnabled>(), saveVariable<player_info_vars::EspBoxEnabled>());
+        configConversion.endObject();
+
+        configConversion.beginObject(u8"RadarHack");
+        configConversion.boolean(u8"Enabled", loadVariable<radar_hack_vars::Enabled>(), saveVariable<radar_hack_vars::Enabled>());
+        configConversion.boolean(u8"OnlyEnemies", loadVariable<radar_hack_vars::OnlyEnemies>(), saveVariable<radar_hack_vars::OnlyEnemies>());
+        configConversion.boolean(u8"ShowBomb", loadVariable<radar_hack_vars::ShowBomb>(), saveVariable<radar_hack_vars::ShowBomb>());
+        configConversion.endObject();
+
+        configConversion.beginObject(u8"GrenadeTimer");
+        configConversion.boolean(u8"SmokeTimer", loadVariable<grenade_timer_vars::SmokeTimerEnabled>(), saveVariable<grenade_timer_vars::SmokeTimerEnabled>());
+        configConversion.boolean(u8"MolotovTimer", loadVariable<grenade_timer_vars::MolotovTimerEnabled>(), saveVariable<grenade_timer_vars::MolotovTimerEnabled>());
         configConversion.endObject();
 
         configConversion.beginObject(u8"ViewmodelMod");

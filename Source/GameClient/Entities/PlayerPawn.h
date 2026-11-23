@@ -100,6 +100,11 @@ public:
         return playerController() == hookContext.localPlayerController();
     }
 
+    [[nodiscard]] const char* getPlayerName() const noexcept
+    {
+        return playerController().playerName();
+    }
+
     [[nodiscard]] std::optional<bool> isEnemy() const noexcept
     {
         return teamNumber() != hookContext.localPlayerController().teamNumber() || teammatesAreEnemies();
@@ -124,6 +129,28 @@ public:
     [[nodiscard]] auto isScoped() const noexcept
     {
         return hookContext.patternSearchResults().template get<OffsetToIsScoped>().of(playerPawn).toOptional();
+    }
+
+    [[nodiscard]] bool isSpotted() const noexcept
+    {
+        if (!playerPawn)
+            return false;
+        constexpr auto kEntitySpottedStateOffset = 0x1EB8;
+        constexpr auto kSpottedOffset = 0x8;
+        const auto* spotted = reinterpret_cast<const bool*>(
+            reinterpret_cast<const std::byte*>(playerPawn) + kEntitySpottedStateOffset + kSpottedOffset);
+        return *spotted;
+    }
+
+    void forceSpotted() const noexcept
+    {
+        if (!playerPawn)
+            return;
+        constexpr auto kEntitySpottedStateOffset = 0x1EB8;
+        constexpr auto kSpottedOffset = 0x8;
+        auto* spotted = reinterpret_cast<bool*>(
+            reinterpret_cast<std::byte*>(playerPawn) + kEntitySpottedStateOffset + kSpottedOffset);
+        *spotted = true;
     }
 
     [[nodiscard]] bool isRescuingHostage() const noexcept

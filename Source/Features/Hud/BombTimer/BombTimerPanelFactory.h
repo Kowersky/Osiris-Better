@@ -50,6 +50,22 @@ public:
         return utils::lvalue<decltype(panel)>(panel);
     }
 
+    decltype(auto) createSafetyDistancePanel(auto&& parentPanel) const noexcept
+    {
+        using namespace bomb_timer_panel_params::timer_text_panel_params;
+
+        auto&& panel = hookContext.panelFactory().createLabelPanel(parentPanel).uiPanel();
+        panel.setWidth(kWidth);
+        panel.setFont(PanelFontParams{
+            .fontFamily = "Stratum2 Bold TF, 'Arial Unicode MS'",
+            .fontSize = 18});
+        panel.setMixBlendMode(kMixBlendMode);
+        panel.setColor(cs2::kColorGreen);
+        panel.setAlign(kAlignment);
+        panel.setTextAlign(kTextAlign);
+        return utils::lvalue<decltype(panel)>(panel);
+    }
+
 private:
     HookContext& hookContext;
 };

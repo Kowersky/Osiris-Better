@@ -1,10 +1,12 @@
 #pragma once
 
+#include <cstdint>
 #include <optional>
 #include <span>
 #include <utility>
 
 #include <CS2/Classes/Color.h>
+#include <CS2/Classes/CUtlString.h>
 #include <CS2/Classes/Entities/C_CSPlayerPawn.h>
 #include <CS2/Classes/Entities/CCSPlayerController.h>
 #include <CS2/Constants/ColorConstants.h>
@@ -49,6 +51,16 @@ public:
     [[nodiscard]] decltype(auto) playerColorIndex() const noexcept
     {
         return hookContext.patternSearchResults().template get<OffsetToPlayerColor>().of(playerControllerPointer).toOptional();
+    }
+
+    [[nodiscard]] const char* playerName() const noexcept
+    {
+        if (!playerControllerPointer)
+            return nullptr;
+        constexpr auto kSanitizedPlayerNameOffset = 0x878;
+        const auto* utlString = reinterpret_cast<const cs2::CUtlString*>(
+            reinterpret_cast<const std::byte*>(playerControllerPointer) + kSanitizedPlayerNameOffset);
+        return utlString->m_pString;
     }
 
 private:

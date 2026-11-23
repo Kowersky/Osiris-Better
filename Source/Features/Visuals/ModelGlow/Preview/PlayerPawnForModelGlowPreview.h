@@ -39,6 +39,11 @@ public:
         return playerTeamNumber;
     }
 
+    [[nodiscard]] bool isSpotted() const noexcept
+    {
+        return false;
+    }
+
     [[nodiscard]] std::optional<bool> isAlive() const noexcept
     {
         return true;

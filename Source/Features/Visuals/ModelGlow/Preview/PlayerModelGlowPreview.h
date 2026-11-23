@@ -134,6 +134,7 @@ private:
         case PlayerModelGlowColorType::PlayerOrTeamColor: return PlayerModelGlowPreviewColorMode::PlayerOrTeamColor;
         case PlayerModelGlowColorType::TeamColor: return PlayerModelGlowPreviewColorMode::TeamColor;
         case PlayerModelGlowColorType::EnemyAlly: return PlayerModelGlowPreviewColorMode::EnemyAlly;
+        case PlayerModelGlowColorType::VisibilityBased: return PlayerModelGlowPreviewColorMode::VisibilityBased;
         default: return PlayerModelGlowPreviewColorMode::None;
         }
     }

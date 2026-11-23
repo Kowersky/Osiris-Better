@@ -204,6 +204,14 @@ $.Osiris = (function () {
     });
 
     $.CreatePanel('Label', viewmodelTabButton, '', { text: "Viewmodel" });
+
+    var radarTabButton = $.CreatePanel('RadioButton', centerContainer, 'radar_button', {
+        group: "VisualsNavBar",
+        class: "content-navbar__tabs__btn",
+        onactivate: "$.Osiris.navigateToSubTab('visuals', 'radar');"
+    });
+
+    $.CreatePanel('Label', radarTabButton, '', { text: "Radar" });
   };
 
   var createCombatNavbar = function () {
@@ -464,20 +472,20 @@ u8R"(
 u8R"(
   var combat = createCombatTab();
   var sniperRiflesTab = createSubTab(combat, 'sniper_rifles');
-  var noScope = createSection(sniperRiflesTab, 'No scope');
+  var noScope = createSection(sniperRiflesTab, 'Bez lunety');
   separator(noScope);
-  createYesNoDropDown(noScope, "Visualize Inaccuracy When Not Using a Scope", 'combat', 'no_scope_inacc_vis');
+  createYesNoDropDown(noScope, "Pokaz niedokladnosc bez lunety", 'combat', 'no_scope_inacc_vis');
 
   $.Osiris.navigateToSubTab('combat', 'sniper_rifles');
 
   var hud = createTab('hud');
   
-  var bomb = createSection(hud, 'Bomb');
-  createYesNoDropDown(bomb, "Show Bomb Explosion Countdown And Site", 'hud', 'bomb_timer');
+  var bomb = createSection(hud, 'Bomba');
+  createYesNoDropDown(bomb, "Pokaz odliczanie wybuchu bomby i miejsce", 'hud', 'bomb_timer');
   separator(bomb);
-  createYesNoDropDown(bomb, "Show Bomb Defuse Countdown", 'hud', 'defusing_alert');
+  createYesNoDropDown(bomb, "Pokaz odliczanie rozbrajania bomby", 'hud', 'defusing_alert');
   separator(bomb);
-  createYesNoDropDown(bomb, "Show Bomb Plant Alert", 'hud', 'bomb_plant_alert');
+  createYesNoDropDown(bomb, "Pokaz alert podkladania bomby", 'hud', 'bomb_plant_alert');
 
   var killfeed = createSection(hud, 'Killfeed');
   separator(killfeed);
@@ -485,24 +493,24 @@ u8R"(
 
   var time = createSection(hud, 'Time');
   separator(time);
-  createYesNoDropDown(time, "Show Post-round Timer", 'hud', 'postround_timer');
+  createYesNoDropDown(time, "Pokaz timer po rundzie", 'hud', 'postround_timer');
 
   var visuals = createVisualsTab();
 
   var playerInfoTab = createSubTab(visuals, 'player_info');
 
   var playerInfo = createSection(playerInfoTab, 'Player Info In World');
-  createDropDown(playerInfo, "Master Switch", 'visuals', 'player_information_through_walls', ['Enemies', 'All Players', 'Off']);
+  createDropDown(playerInfo, "Glowny przelacznik", 'visuals', 'player_information_through_walls', ['Wrogowie', 'Wszyscy gracze', 'Wyl']);
 
   var playerPosition = createSection(playerInfoTab, 'Player Position');
-  createYesNoDropDown(playerPosition, "Show Player Position Arrow", 'visuals', 'player_info_position');
+  createYesNoDropDown(playerPosition, "Pokaz strzalke pozycji gracza", 'visuals', 'player_info_position');
   separator(playerPosition);
-  createDropDown(playerPosition, "Player Position Arrow Color", 'visuals', 'player_info_position_color', ['Player / Team Color', 'Team Color']);
+  createDropDown(playerPosition, "Player Position Arrow Color", 'visuals', 'player_info_position_color', ['Kolor gracza / druzyny', 'Kolor druzyny']);
 
   var playerHealth = createSection(playerInfoTab, 'Player Health');
-  createYesNoDropDown(playerHealth, "Show Player Health", 'visuals', 'player_info_health');
+  createYesNoDropDown(playerHealth, "Pokaz zdrowie gracza", 'visuals', 'player_info_health');
   separator(playerHealth);
-  createDropDown(playerHealth, "Player Health Text Color", 'visuals', 'player_info_health_color', ['Health-based', 'White']);
+  createDropDown(playerHealth, "Player Health Text Color", 'visuals', 'player_info_health_color', ['Wg zdrowia', 'White']);
 
   var playerWeapon = createSection(playerInfoTab, 'Player Weapon');
   createYesNoDropDown(playerWeapon, "Show Player Active Weapon Icon", 'visuals', 'player_info_weapon');
@@ -513,7 +521,7 @@ u8R"(
   separator(playerWeapon);
   createYesNoDropDown(playerWeapon, 'Show Bomb Planting Icon', 'visuals', 'player_info_bomb_planting');
 
-  var playerIcons = createSection(playerInfoTab, 'Icons');
+  var playerIcons = createSection(playerInfoTab, 'Ikony');
   createYesNoDropDown(playerIcons, "Show Defuse Icon", 'visuals', 'player_info_defuse');
   separator(playerIcons);
   createYesNoDropDown(playerIcons, 'Show Picking Up Hostage Icon', 'visuals', 'player_info_hostage_pickup');
@@ -522,86 +530,100 @@ u8R"(
   separator(playerIcons);
   createYesNoDropDown(playerIcons, 'Show Blinded By Flashbang Icon', 'visuals', 'player_info_blinded');
 
+  var espSection = createSection(playerInfoTab, 'ESP');
+  createYesNoDropDown(espSection, "Nazwa gracza", 'visuals', 'player_info_name');
+  separator(espSection);
+  createYesNoDropDown(espSection, "Pasek zdrowia", 'visuals', 'player_info_health_bar');
+  separator(espSection);
+  createYesNoDropDown(espSection, "Odleglosc", 'visuals', 'player_info_distance');
+  separator(espSection);
+  createYesNoDropDown(espSection, "ESP Box", 'visuals', 'player_info_esp_box');
+
   var outlineGlowTab = createSubTab(visuals, 'outline_glow');
 
   var outlineGlow = createSection(outlineGlowTab, 'Outline Glow');
-  createOnOffDropDown(outlineGlow, "Master Switch", 'visuals', 'outline_glow_enable');
+  createOnOffDropDown(outlineGlow, "Glowny przelacznik", 'visuals', 'outline_glow_enable');
 
-  var playerOutlineGlow = createSection(outlineGlowTab, 'Players');
-  createDropDown(playerOutlineGlow, "Glow Players", 'visuals', 'player_outline_glow', ['Enemies', 'All Players', 'Off']);
+  var playerOutlineGlow = createSection(outlineGlowTab, 'Gracze');
+  createDropDown(playerOutlineGlow, "Podswietlanie graczy", 'visuals', 'player_outline_glow', ['Wrogowie', 'Wszyscy gracze', 'Wyl']);
   separator(playerOutlineGlow);
-  createDropDown(playerOutlineGlow, "Player Glow Color", 'visuals', 'player_outline_glow_color', ['Player / Team Color', 'Team Color', 'Health-based', 'Enemy / Ally']);
-  separator(playerOutlineGlow);
-  separator(playerOutlineGlow);
-  createHueSlider(playerOutlineGlow, "Player Blue Hue", 'player_outline_glow_blue_hue', 191, 240);
-  separator(playerOutlineGlow);
-  createHueSlider(playerOutlineGlow, "Player Green Hue", 'player_outline_glow_green_hue', 110, 140);
-  separator(playerOutlineGlow);
-  createHueSlider(playerOutlineGlow, "Player Yellow Hue", 'player_outline_glow_yellow_hue', 47, 60);
-  separator(playerOutlineGlow);
-  createHueSlider(playerOutlineGlow, "Player Orange Hue", 'player_outline_glow_orange_hue', 11, 20);
-  separator(playerOutlineGlow);
-  createHueSlider(playerOutlineGlow, "Player Purple Hue", 'player_outline_glow_purple_hue', 250, 280);
+  createDropDown(playerOutlineGlow, "Kolor podswietlenia gracza", 'visuals', 'player_outline_glow_color', ['Kolor gracza / druzyny', 'Kolor druzyny', 'Wg zdrowia', 'Wrog / Sojusznik', 'Widocznosc']);
   separator(playerOutlineGlow);
   separator(playerOutlineGlow);
-  createHueSlider(playerOutlineGlow, "Team T Hue", 'player_outline_glow_t_hue', 30, 40);
+  createHueSlider(playerOutlineGlow, "Odcien niebieski gracza", 'player_outline_glow_blue_hue', 191, 240);
   separator(playerOutlineGlow);
-  createHueSlider(playerOutlineGlow, "Team CT Hue", 'player_outline_glow_ct_hue', 210, 230);
+  createHueSlider(playerOutlineGlow, "Odcien zielony gracza", 'player_outline_glow_green_hue', 110, 140);
+  separator(playerOutlineGlow);
+  createHueSlider(playerOutlineGlow, "Odcien zolty gracza", 'player_outline_glow_yellow_hue', 47, 60);
+  separator(playerOutlineGlow);
+  createHueSlider(playerOutlineGlow, "Odcien pomaranczowy gracza", 'player_outline_glow_orange_hue', 11, 20);
+  separator(playerOutlineGlow);
+  createHueSlider(playerOutlineGlow, "Odcien fioletowy gracza", 'player_outline_glow_purple_hue', 250, 280);
   separator(playerOutlineGlow);
   separator(playerOutlineGlow);
-  createHueSlider(playerOutlineGlow, "High Health Hue", 'player_outline_glow_high_hp_hue', 0, 359);
+  createHueSlider(playerOutlineGlow, "Odcien druzyny T", 'player_outline_glow_t_hue', 30, 40);
   separator(playerOutlineGlow);
-  createHueSlider(playerOutlineGlow, "Low Health Hue", 'player_outline_glow_low_hp_hue', 0, 359);
+  createHueSlider(playerOutlineGlow, "Odcien druzyny CT", 'player_outline_glow_ct_hue', 210, 230);
   separator(playerOutlineGlow);
   separator(playerOutlineGlow);
-  createHueSlider(playerOutlineGlow, "Enemy Hue", 'player_outline_glow_enemy_hue', 0, 359);
+  createHueSlider(playerOutlineGlow, "Odcien wysokiego HP", 'player_outline_glow_high_hp_hue', 0, 359);
   separator(playerOutlineGlow);
-  createHueSlider(playerOutlineGlow, "Ally Hue", 'player_outline_glow_ally_hue', 0, 359);
+  createHueSlider(playerOutlineGlow, "Odcien niskiego HP", 'player_outline_glow_low_hp_hue', 0, 359);
+  separator(playerOutlineGlow);
+  separator(playerOutlineGlow);
+  createHueSlider(playerOutlineGlow, "Odcien wroga", 'player_outline_glow_enemy_hue', 0, 359);
+  separator(playerOutlineGlow);
+  createHueSlider(playerOutlineGlow, "Odcien sojusznika", 'player_outline_glow_ally_hue', 0, 359);
+  separator(playerOutlineGlow);
+  separator(playerOutlineGlow);
+  createHueSlider(playerOutlineGlow, "Odcien widocznego", 'player_outline_glow_visible_hue', 0, 359);
+  separator(playerOutlineGlow);
+  createHueSlider(playerOutlineGlow, "Odcien niewidocznego", 'player_outline_glow_not_visible_hue', 0, 359);
 
-  var weaponOutlineGlow = createSection(outlineGlowTab, 'Weapons');
-  createYesNoDropDown(weaponOutlineGlow, "Glow Weapons on Ground Nearby", 'visuals', 'weapon_outline_glow');
+  var weaponOutlineGlow = createSection(outlineGlowTab, 'Bronie');
+  createYesNoDropDown(weaponOutlineGlow, "Podswietlanie broni na ziemi", 'visuals', 'weapon_outline_glow');
   separator(weaponOutlineGlow);
-  createYesNoDropDown(weaponOutlineGlow, "Glow Grenade Projectiles", 'visuals', 'grenade_proj_outline_glow');
+  createYesNoDropDown(weaponOutlineGlow, "Podswietlanie granatow", 'visuals', 'grenade_proj_outline_glow');
   separator(weaponOutlineGlow);
   separator(weaponOutlineGlow);
-  createHueSlider(weaponOutlineGlow, "Flashbang Hue", 'outline_glow_flashbang_hue', 191, 250);
+  createHueSlider(weaponOutlineGlow, "Odcien flashbanga", 'outline_glow_flashbang_hue', 191, 250);
   separator(weaponOutlineGlow);
-  createHueSlider(weaponOutlineGlow, "HE Grenade Hue", 'outline_glow_hegrenade_hue', 300, 359);
+  createHueSlider(weaponOutlineGlow, "Odcien granatu HE", 'outline_glow_hegrenade_hue', 300, 359);
   separator(weaponOutlineGlow);
-  createHueSlider(weaponOutlineGlow, "Smoke Grenade Hue", 'outline_glow_smoke_hue', 110, 140);
+  createHueSlider(weaponOutlineGlow, "Odcien dymnego", 'outline_glow_smoke_hue', 110, 140);
   separator(weaponOutlineGlow);
-  createHueSlider(weaponOutlineGlow, "Molotov / Incendiary Grenade Hue", 'outline_glow_molotov_hue', 20, 60);
+  createHueSlider(weaponOutlineGlow, "Odcien molotova", 'outline_glow_molotov_hue', 20, 60);
 
-  var bombAndDefuseKitOutlineGlow = createSection(outlineGlowTab, 'Bomb & Defuse Kit');
-  createYesNoDropDown(bombAndDefuseKitOutlineGlow, "Glow Dropped Bomb", 'visuals', 'dropped_bomb_outline_glow');
+  var bombAndDefuseKitOutlineGlow = createSection(outlineGlowTab, 'Bomba i zestaw rozbrajania');
+  createYesNoDropDown(bombAndDefuseKitOutlineGlow, "Podswietlanie bomby na ziemi", 'visuals', 'dropped_bomb_outline_glow');
   separator(bombAndDefuseKitOutlineGlow);
-  createYesNoDropDown(bombAndDefuseKitOutlineGlow, "Glow Ticking Bomb", 'visuals', 'ticking_bomb_outline_glow');
+  createYesNoDropDown(bombAndDefuseKitOutlineGlow, "Podswietlanie podlozonej bomby", 'visuals', 'ticking_bomb_outline_glow');
   separator(bombAndDefuseKitOutlineGlow);
-  createYesNoDropDown(bombAndDefuseKitOutlineGlow, "Glow Defuse Kits on Ground Nearby", 'visuals', 'defuse_kit_outline_glow');
+  createYesNoDropDown(bombAndDefuseKitOutlineGlow, "Podswietlanie zestawow rozbrajania", 'visuals', 'defuse_kit_outline_glow');
   separator(bombAndDefuseKitOutlineGlow);
   separator(bombAndDefuseKitOutlineGlow);
-  createHueSlider(bombAndDefuseKitOutlineGlow, "Dropped Bomb Hue", 'outline_glow_dropped_bomb_hue', 0, 359);
+  createHueSlider(bombAndDefuseKitOutlineGlow, "Odcien bomby na ziemi", 'outline_glow_dropped_bomb_hue', 0, 359);
   separator(bombAndDefuseKitOutlineGlow);
-  createHueSlider(bombAndDefuseKitOutlineGlow, "Ticking Bomb Hue", 'outline_glow_ticking_bomb_hue', 0, 359);
+  createHueSlider(bombAndDefuseKitOutlineGlow, "Odcien podlozonej bomby", 'outline_glow_ticking_bomb_hue', 0, 359);
   separator(bombAndDefuseKitOutlineGlow);
-  createHueSlider(bombAndDefuseKitOutlineGlow, "Defuse Kit Hue", 'outline_glow_defuse_kit_hue', 0, 359);
+  createHueSlider(bombAndDefuseKitOutlineGlow, "Odcien zestawu rozbrajania", 'outline_glow_defuse_kit_hue', 0, 359);
 
-  var hostageOutlineGlow = createSection(outlineGlowTab, 'Hostages');
-  createYesNoDropDown(hostageOutlineGlow, "Glow Hostages", 'visuals', 'hostage_outline_glow');
+  var hostageOutlineGlow = createSection(outlineGlowTab, 'Zakladnicy');
+  createYesNoDropDown(hostageOutlineGlow, "Podswietlanie zakladnikow", 'visuals', 'hostage_outline_glow');
   separator(hostageOutlineGlow);
-  createHueSlider(hostageOutlineGlow, "Hostage Hue", 'outline_glow_hostage_hue', 0, 359);
+  createHueSlider(hostageOutlineGlow, "Odcien zakladnika", 'outline_glow_hostage_hue', 0, 359);
 
   var _modelGlowTab = createSubTab(visuals, 'model_glow');
   _modelGlowTab.style.overflow = 'squish squish';
   _modelGlowTab.style.flowChildren = 'right';
 
   var modelGlowPreview = $.CreatePanel('Panel', _modelGlowTab, '', { style: 'flow-children: down;' });
-  $.CreatePanel('Label', modelGlowPreview, '', { style: 'vertical-align: top; horizontal-align: center; font-size: 40;', text: 'Preview' });
+  $.CreatePanel('Label', modelGlowPreview, '', { style: 'vertical-align: top; horizontal-align: center; font-size: 40;', text: 'Podglad' });
   var playerModelGlowPreview = $.CreatePanel('Panel', modelGlowPreview, '', { style: 'flow-children: right; margin-top: 20px;' });
   createPlayerModelGlowPreview(playerModelGlowPreview, 'ModelGlowPreviewPlayerTT', 'ModelGlowPreviewPlayerTTLabel', 'agents/models/tm_professional/tm_professional_varf.vmdl', makeFauxItemId(7, 921));
   createPlayerModelGlowPreview(playerModelGlowPreview, 'ModelGlowPreviewPlayerCT', 'ModelGlowPreviewPlayerCTLabel', 'agents/models/ctm_st6/ctm_st6_variante.vmdl', makeFauxItemId(9, 819));
 
-  $.CreatePanel('Label', modelGlowPreview, '', { style: 'horizontal-align: center; margin-top: 20px;', text: 'Weapons on the Ground' });
+  $.CreatePanel('Label', modelGlowPreview, '', { style: 'horizontal-align: center; margin-top: 20px;', text: 'Bronie na ziemi' });
 
   var weaponModelGlowPreview = $.CreatePanel('Panel', modelGlowPreview, '', { style: 'flow-children: right;' });
 
@@ -631,39 +653,44 @@ u8R"(
 
   var modelGlowTab = $.CreatePanel('Panel', _modelGlowTab, '', { style: 'flow-children: down; margin-right: 40px; overflow: squish scroll;' });
 
-  var modelGlow = createSection(modelGlowTab, 'Model Glow');
-  createOnOffDropDown(modelGlow, "Master Switch", 'visuals', 'model_glow_enable');
+  var modelGlow = createSection(modelGlowTab, 'Podswietlenie modelu');
+  createOnOffDropDown(modelGlow, "Glowny przelacznik", 'visuals', 'model_glow_enable');
 
-  var playerModelGlow = createSection(modelGlowTab, 'Players');
-  createDropDown(playerModelGlow, "Glow Player Models", 'visuals', 'player_model_glow', ['Enemies', 'All Players', 'Off']);
+  var playerModelGlow = createSection(modelGlowTab, 'Gracze');
+  createDropDown(playerModelGlow, "Podswietlanie modeli graczy", 'visuals', 'player_model_glow', ['Wrogowie', 'Wszyscy gracze', 'Wyl']);
   separator(playerModelGlow);
-  createDropDown(playerModelGlow, "Player Model Glow Color Mode", 'visuals', 'player_model_glow_color', ['Player / Team Color', 'Team Color', 'Health-based', 'Enemy / Ally']);
-  separator(playerModelGlow);
-  separator(playerModelGlow);
-  createHueSlider(playerModelGlow, "Player Blue Hue", 'player_model_glow_blue_hue', 191, 240);
-  separator(playerModelGlow);
-  createHueSlider(playerModelGlow, "Player Green Hue", 'player_model_glow_green_hue', 110, 140);
-  separator(playerModelGlow);
-  createHueSlider(playerModelGlow, "Player Yellow Hue", 'player_model_glow_yellow_hue', 47, 60);
-  separator(playerModelGlow);
-  createHueSlider(playerModelGlow, "Player Orange Hue", 'player_model_glow_orange_hue', 11, 20);
-  separator(playerModelGlow);
-  createHueSlider(playerModelGlow, "Player Purple Hue", 'player_model_glow_purple_hue', 250, 280);
+  createDropDown(playerModelGlow, "Tryb koloru podswietlenia modelu", 'visuals', 'player_model_glow_color', ['Kolor gracza / druzyny', 'Kolor druzyny', 'Wg zdrowia', 'Wrog / Sojusznik', 'Widocznosc']);
   separator(playerModelGlow);
   separator(playerModelGlow);
-  createHueSlider(playerModelGlow, "Team T Hue", 'player_model_glow_t_hue', 30, 40);
+  createHueSlider(playerModelGlow, "Odcien niebieski gracza", 'player_model_glow_blue_hue', 191, 240);
   separator(playerModelGlow);
-  createHueSlider(playerModelGlow, "Team CT Hue", 'player_model_glow_ct_hue', 210, 230);
+  createHueSlider(playerModelGlow, "Odcien zielony gracza", 'player_model_glow_green_hue', 110, 140);
+  separator(playerModelGlow);
+  createHueSlider(playerModelGlow, "Odcien zolty gracza", 'player_model_glow_yellow_hue', 47, 60);
+  separator(playerModelGlow);
+  createHueSlider(playerModelGlow, "Odcien pomaranczowy gracza", 'player_model_glow_orange_hue', 11, 20);
+  separator(playerModelGlow);
+  createHueSlider(playerModelGlow, "Odcien fioletowy gracza", 'player_model_glow_purple_hue', 250, 280);
   separator(playerModelGlow);
   separator(playerModelGlow);
-  createHueSlider(playerModelGlow, "High Health Hue", 'player_model_glow_high_hp_hue', 0, 359);
+  createHueSlider(playerModelGlow, "Odcien druzyny T", 'player_model_glow_t_hue', 30, 40);
   separator(playerModelGlow);
-  createHueSlider(playerModelGlow, "Low Health Hue", 'player_model_glow_low_hp_hue', 0, 359);
+  createHueSlider(playerModelGlow, "Odcien druzyny CT", 'player_model_glow_ct_hue', 210, 230);
   separator(playerModelGlow);
   separator(playerModelGlow);
-  createHueSlider(playerModelGlow, "Enemy Hue", 'player_model_glow_enemy_hue', 0, 359);
+  createHueSlider(playerModelGlow, "Odcien wysokiego HP", 'player_model_glow_high_hp_hue', 0, 359);
   separator(playerModelGlow);
-  createHueSlider(playerModelGlow, "Ally Hue", 'player_model_glow_ally_hue', 0, 359);
+  createHueSlider(playerModelGlow, "Odcien niskiego HP", 'player_model_glow_low_hp_hue', 0, 359);
+  separator(playerModelGlow);
+  separator(playerModelGlow);
+  createHueSlider(playerModelGlow, "Odcien wroga", 'player_model_glow_enemy_hue', 0, 359);
+  separator(playerModelGlow);
+  createHueSlider(playerModelGlow, "Odcien sojusznika", 'player_model_glow_ally_hue', 0, 359);
+  separator(playerModelGlow);
+  separator(playerModelGlow);
+  createHueSlider(playerModelGlow, "Odcien widocznego", 'player_model_glow_visible_hue', 0, 359);
+  separator(playerModelGlow);
+  createHueSlider(playerModelGlow, "Odcien niewidocznego", 'player_model_glow_not_visible_hue', 0, 359);
 )"
 // split the string literal because MSVC does not support string literals longer than 16k chars - error C2026
 u8R"(
@@ -673,15 +700,15 @@ u8R"(
   createYesNoDropDown(weaponModelGlow, "Glow Grenade Projectile Models", 'visuals', 'grenade_proj_model_glow');
   separator(weaponModelGlow);
   separator(weaponModelGlow);
-  createHueSlider(weaponModelGlow, "Flashbang Hue", 'model_glow_flashbang_hue', 191, 250);
+  createHueSlider(weaponModelGlow, "Odcien flashbanga", 'model_glow_flashbang_hue', 191, 250);
   separator(weaponModelGlow);
-  createHueSlider(weaponModelGlow, "HE Grenade Hue", 'model_glow_hegrenade_hue', 300, 359);
+  createHueSlider(weaponModelGlow, "Odcien granatu HE", 'model_glow_hegrenade_hue', 300, 359);
   separator(weaponModelGlow);
-  createHueSlider(weaponModelGlow, "Smoke Grenade Hue", 'model_glow_smoke_hue', 110, 140);
+  createHueSlider(weaponModelGlow, "Odcien dymnego", 'model_glow_smoke_hue', 110, 140);
   separator(weaponModelGlow);
-  createHueSlider(weaponModelGlow, "Molotov / Incendiary Grenade Hue", 'model_glow_molotov_hue', 20, 60);
+  createHueSlider(weaponModelGlow, "Odcien molotova", 'model_glow_molotov_hue', 20, 60);
 
-  var bombModelGlow = createSection(modelGlowTab, 'Bomb & Defuse Kit');
+  var bombModelGlow = createSection(modelGlowTab, 'Bomba i zestaw rozbrajania');
   createYesNoDropDown(bombModelGlow, "Glow Dropped Bomb Model", 'visuals', 'dropped_bomb_model_glow');
   separator(bombModelGlow);
   createYesNoDropDown(bombModelGlow, "Glow Ticking Bomb Model", 'visuals', 'ticking_bomb_model_glow');
@@ -689,18 +716,18 @@ u8R"(
   createYesNoDropDown(bombModelGlow, "Glow Defuse Kit Models on Ground", 'visuals', 'defuse_kit_model_glow');
   separator(bombModelGlow);
   separator(bombModelGlow);
-  createHueSlider(bombModelGlow, "Dropped Bomb Hue", 'model_glow_dropped_bomb_hue', 0, 359);
+  createHueSlider(bombModelGlow, "Odcien bomby na ziemi", 'model_glow_dropped_bomb_hue', 0, 359);
   separator(bombModelGlow);
-  createHueSlider(bombModelGlow, "Ticking Bomb Hue", 'model_glow_ticking_bomb_hue', 0, 359);
+  createHueSlider(bombModelGlow, "Odcien podlozonej bomby", 'model_glow_ticking_bomb_hue', 0, 359);
   separator(bombModelGlow);
-  createHueSlider(bombModelGlow, "Defuse Kit Hue", 'model_glow_defuse_kit_hue', 0, 359);
+  createHueSlider(bombModelGlow, "Odcien zestawu rozbrajania", 'model_glow_defuse_kit_hue', 0, 359);
 
   var _viewmodelTab = createSubTab(visuals, 'viewmodel');
   _viewmodelTab.style.overflow = 'squish squish';
   _viewmodelTab.style.flowChildren = 'right';
 
   var viewmodelPreviewContainer = $.CreatePanel('Panel', _viewmodelTab, '', { style: 'flow-children: down;' });
-  $.CreatePanel('Label', viewmodelPreviewContainer, '', { style: 'vertical-align: top; horizontal-align: center; font-size: 40;', text: 'Preview' });
+  $.CreatePanel('Label', viewmodelPreviewContainer, '', { style: 'vertical-align: top; horizontal-align: center; font-size: 40;', text: 'Podglad' });
 
   var viewmodelPreview = $.CreatePanel('MapItemPreviewPanel', viewmodelPreviewContainer, 'ViewmodelPreview', {
     map: "ui/xpshop_item",
@@ -719,12 +746,25 @@ u8R"(
   var viewmodelTab = $.CreatePanel('Panel', _viewmodelTab, '', { style: 'flow-children: down; margin-right: 40px; overflow: squish scroll;' });
 
   var viewmodelModification = createSection(viewmodelTab, 'Viewmodel Modification');
-  createOnOffDropDown(viewmodelModification, "Master Switch", 'visuals', 'viewmodel_mod');
+  createOnOffDropDown(viewmodelModification, "Glowny przelacznik", 'visuals', 'viewmodel_mod');
 
   var viewmodelFov = createSection(viewmodelTab, 'Viewmodel Fov');
   createYesNoDropDown(viewmodelFov, "Modify Viewmodel Fov", 'visuals', 'viewmodel_fov_mod');
   separator(viewmodelFov);
   createSlider(viewmodelFov, "Fov", 'viewmodel_fov', 40, 90);
+
+  var radarTab = createSubTab(visuals, 'radar');
+  var radarSection = createSection(radarTab, 'Radar Hack');
+  createOnOffDropDown(radarSection, "Glowny przelacznik", 'visuals', 'radar_hack');
+  separator(radarSection);
+  createDropDown(radarSection, "Pokazuj graczy", 'visuals', 'radar_hack_players', ['Tylko wrogowie', 'Wszyscy gracze']);
+  separator(radarSection);
+  createYesNoDropDown(radarSection, "Pokazuj bombe na mapie", 'visuals', 'radar_hack_bomb');
+
+  var grenadeTimerSection = createSection(radarTab, 'Grenade Timer');
+  createYesNoDropDown(grenadeTimerSection, "Timer dymu", 'visuals', 'smoke_timer');
+  separator(grenadeTimerSection);
+  createYesNoDropDown(grenadeTimerSection, "Timer molotova", 'visuals', 'molotov_timer');
 
   $.Osiris.navigateToSubTab('visuals', 'player_info');
 

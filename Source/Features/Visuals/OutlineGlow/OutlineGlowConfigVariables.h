@@ -33,6 +33,9 @@ CONFIG_VARIABLE_HUE(HighHealthHue, outline_glow_params::kHighHealthHue);
 CONFIG_VARIABLE_HUE(AllyHue, outline_glow_params::kAllyHue);
 CONFIG_VARIABLE_HUE(EnemyHue, outline_glow_params::kEnemyHue);
 
+CONFIG_VARIABLE_HUE(VisibleHue, outline_glow_params::kVisibleHue);
+CONFIG_VARIABLE_HUE(NotVisibleHue, outline_glow_params::kNotVisibleHue);
+
 CONFIG_VARIABLE_HUE(MolotovHue, outline_glow_params::kMolotovHue);
 CONFIG_VARIABLE_HUE(FlashbangHue, outline_glow_params::kFlashbangHue);
 CONFIG_VARIABLE_HUE(HEGrenadeHue, outline_glow_params::kHEGrenadeHue);

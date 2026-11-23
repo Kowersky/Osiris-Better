@@ -12,7 +12,8 @@ enum class PlayerModelGlowColorType : std::uint8_t {
     PlayerOrTeamColor,
     TeamColor,
     HealthBased,
-    EnemyAlly
+    EnemyAlly,
+    VisibilityBased
 };
 
 namespace model_glow_vars
@@ -42,6 +43,9 @@ CONFIG_VARIABLE_HUE(HighHealthHue, model_glow_params::kHighHealthHue);
 
 CONFIG_VARIABLE_HUE(AllyHue, model_glow_params::kAllyHue);
 CONFIG_VARIABLE_HUE(EnemyHue, model_glow_params::kEnemyHue);
+
+CONFIG_VARIABLE_HUE(VisibleHue, model_glow_params::kVisibleHue);
+CONFIG_VARIABLE_HUE(NotVisibleHue, model_glow_params::kNotVisibleHue);
 
 CONFIG_VARIABLE_HUE(MolotovHue, model_glow_params::kMolotovHue);
 CONFIG_VARIABLE_HUE(FlashbangHue, model_glow_params::kFlashbangHue);

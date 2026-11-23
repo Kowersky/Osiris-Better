@@ -19,6 +19,7 @@ struct PlayerOutlineGlowColorModeDropdownSelectionChangeHandler {
         case 1: colorMode = PlayerOutlineGlowColorType::TeamColor; break;
         case 2: colorMode = PlayerOutlineGlowColorType::HealthBased; break;
         case 3: colorMode = PlayerOutlineGlowColorType::EnemyAlly; break;
+        case 4: colorMode = PlayerOutlineGlowColorType::VisibilityBased; break;
         default: return;
         }
 

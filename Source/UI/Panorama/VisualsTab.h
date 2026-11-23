@@ -15,6 +15,8 @@
 #include "Tabs/VisualsTab/PlayerModelGlowDropdownSelectionChangeHandler.h"
 #include "Tabs/VisualsTab/PlayerOutlineGlowColorModeDropdownSelectionChangeHandler.h"
 #include "Tabs/VisualsTab/PlayerOutlineGlowDropdownSelectionChangeHandler.h"
+#include <Features/Visuals/GrenadeTimer/GrenadeTimerConfigVariables.h>
+#include <Features/Visuals/RadarHack/RadarHackConfigVariables.h>
 
 template <typename HookContext>
 class VisualsTab {
@@ -30,6 +32,7 @@ public:
         initModelGlowTab(guiPanel);
         initOutlineGlowTab(guiPanel);
         initViewmodelTab(guiPanel);
+        initRadarTab(guiPanel);
     }
 
     void updateFromConfig(auto&& mainMenu) const noexcept
@@ -38,6 +41,7 @@ public:
         updateOutlineGlowTab(mainMenu);
         updateModelGlowTab(mainMenu);
         updateViewmodelTab(mainMenu);
+        updateRadarTab(mainMenu);
     }
 
 private:
@@ -56,6 +60,10 @@ private:
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, player_info_vars::BlindedIconEnabled>>(guiPanel, "player_info_blinded");
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, player_info_vars::BombCarrierIconEnabled>>(guiPanel, "player_info_bomb_carrier");
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, player_info_vars::BombPlantIconEnabled>>(guiPanel, "player_info_bomb_planting");
+        initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, player_info_vars::PlayerNameEnabled>>(guiPanel, "player_info_name");
+        initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, player_info_vars::HealthBarEnabled>>(guiPanel, "player_info_health_bar");
+        initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, player_info_vars::PlayerDistanceEnabled>>(guiPanel, "player_info_distance");
+        initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, player_info_vars::EspBoxEnabled>>(guiPanel, "player_info_esp_box");
     }
 
     void initModelGlowTab(auto&& guiPanel) const
@@ -80,6 +88,8 @@ private:
         registerHueSliderUpdateHandler<model_glow_vars::HighHealthHue, "player_model_glow_high_hp_hue">(guiPanel);
         registerHueSliderUpdateHandler<model_glow_vars::EnemyHue, "player_model_glow_enemy_hue">(guiPanel);
         registerHueSliderUpdateHandler<model_glow_vars::AllyHue, "player_model_glow_ally_hue">(guiPanel);
+        registerHueSliderUpdateHandler<model_glow_vars::VisibleHue, "player_model_glow_visible_hue">(guiPanel);
+        registerHueSliderUpdateHandler<model_glow_vars::NotVisibleHue, "player_model_glow_not_visible_hue">(guiPanel);
         registerHueSliderUpdateHandler<model_glow_vars::MolotovHue, "model_glow_molotov_hue">(guiPanel);
         registerHueSliderUpdateHandler<model_glow_vars::FlashbangHue, "model_glow_flashbang_hue">(guiPanel);
         registerHueSliderUpdateHandler<model_glow_vars::HEGrenadeHue, "model_glow_hegrenade_hue">(guiPanel);
@@ -112,6 +122,8 @@ private:
         registerHueSliderUpdateHandler<outline_glow_vars::HighHealthHue, "player_outline_glow_high_hp_hue">(guiPanel);
         registerHueSliderUpdateHandler<outline_glow_vars::EnemyHue, "player_outline_glow_enemy_hue">(guiPanel);
         registerHueSliderUpdateHandler<outline_glow_vars::AllyHue, "player_outline_glow_ally_hue">(guiPanel);
+        registerHueSliderUpdateHandler<outline_glow_vars::VisibleHue, "player_outline_glow_visible_hue">(guiPanel);
+        registerHueSliderUpdateHandler<outline_glow_vars::NotVisibleHue, "player_outline_glow_not_visible_hue">(guiPanel);
         registerHueSliderUpdateHandler<outline_glow_vars::MolotovHue, "outline_glow_molotov_hue">(guiPanel);
         registerHueSliderUpdateHandler<outline_glow_vars::FlashbangHue, "outline_glow_flashbang_hue">(guiPanel);
         registerHueSliderUpdateHandler<outline_glow_vars::HEGrenadeHue, "outline_glow_hegrenade_hue">(guiPanel);
@@ -126,6 +138,15 @@ private:
     {
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, viewmodel_mod_vars::Enabled>>(guiPanel, "viewmodel_mod");
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, viewmodel_mod_vars::ModifyFov>>(guiPanel, "viewmodel_fov_mod");
+    }
+
+    void initRadarTab(auto&& guiPanel) const
+    {
+        initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, radar_hack_vars::Enabled>>(guiPanel, "radar_hack");
+        initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, radar_hack_vars::OnlyEnemies>>(guiPanel, "radar_hack_players");
+        initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, radar_hack_vars::ShowBomb>>(guiPanel, "radar_hack_bomb");
+        initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, grenade_timer_vars::SmokeTimerEnabled>>(guiPanel, "smoke_timer");
+        initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, grenade_timer_vars::MolotovTimerEnabled>>(guiPanel, "molotov_timer");
     }
 
     template <typename Handler>
@@ -158,6 +179,10 @@ private:
         setDropDownSelectedIndex(mainMenu, "player_info_hostage_pickup", !GET_CONFIG_VAR(player_info_vars::HostagePickupIconEnabled));
         setDropDownSelectedIndex(mainMenu, "player_info_hostage_rescue", !GET_CONFIG_VAR(player_info_vars::HostageRescueIconEnabled));
         setDropDownSelectedIndex(mainMenu, "player_info_blinded", !GET_CONFIG_VAR(player_info_vars::BlindedIconEnabled));
+        setDropDownSelectedIndex(mainMenu, "player_info_name", !GET_CONFIG_VAR(player_info_vars::PlayerNameEnabled));
+        setDropDownSelectedIndex(mainMenu, "player_info_health_bar", !GET_CONFIG_VAR(player_info_vars::HealthBarEnabled));
+        setDropDownSelectedIndex(mainMenu, "player_info_distance", !GET_CONFIG_VAR(player_info_vars::PlayerDistanceEnabled));
+        setDropDownSelectedIndex(mainMenu, "player_info_esp_box", !GET_CONFIG_VAR(player_info_vars::EspBoxEnabled));
     }
 
     void updateOutlineGlowTab(auto&& mainMenu) const noexcept
@@ -182,6 +207,8 @@ private:
         updateHueSlider<outline_glow_vars::HighHealthHue>(mainMenu, "player_outline_glow_high_hp_hue");
         updateHueSlider<outline_glow_vars::AllyHue>(mainMenu, "player_outline_glow_ally_hue");
         updateHueSlider<outline_glow_vars::EnemyHue>(mainMenu, "player_outline_glow_enemy_hue");
+        updateHueSlider<outline_glow_vars::VisibleHue>(mainMenu, "player_outline_glow_visible_hue");
+        updateHueSlider<outline_glow_vars::NotVisibleHue>(mainMenu, "player_outline_glow_not_visible_hue");
         updateHueSlider<outline_glow_vars::MolotovHue>(mainMenu, "outline_glow_molotov_hue");
         updateHueSlider<outline_glow_vars::FlashbangHue>(mainMenu, "outline_glow_flashbang_hue");
         updateHueSlider<outline_glow_vars::HEGrenadeHue>(mainMenu, "outline_glow_hegrenade_hue");
@@ -213,6 +240,8 @@ private:
         updateHueSlider<model_glow_vars::HighHealthHue>(mainMenu, "player_model_glow_high_hp_hue");
         updateHueSlider<model_glow_vars::AllyHue>(mainMenu, "player_model_glow_ally_hue");
         updateHueSlider<model_glow_vars::EnemyHue>(mainMenu, "player_model_glow_enemy_hue");
+        updateHueSlider<model_glow_vars::VisibleHue>(mainMenu, "player_model_glow_visible_hue");
+        updateHueSlider<model_glow_vars::NotVisibleHue>(mainMenu, "player_model_glow_not_visible_hue");
         updateHueSlider<model_glow_vars::MolotovHue>(mainMenu, "model_glow_molotov_hue");
         updateHueSlider<model_glow_vars::FlashbangHue>(mainMenu, "model_glow_flashbang_hue");
         updateHueSlider<model_glow_vars::HEGrenadeHue>(mainMenu, "model_glow_hegrenade_hue");
@@ -227,6 +256,15 @@ private:
         setDropDownSelectedIndex(mainMenu, "viewmodel_mod", !GET_CONFIG_VAR(viewmodel_mod_vars::Enabled));
         setDropDownSelectedIndex(mainMenu, "viewmodel_fov_mod", !GET_CONFIG_VAR(viewmodel_mod_vars::ModifyFov));
         updateSlider<viewmodel_mod_vars::Fov>(mainMenu, "viewmodel_fov");
+    }
+
+    void updateRadarTab(auto&& mainMenu) const noexcept
+    {
+        setDropDownSelectedIndex(mainMenu, "radar_hack", !GET_CONFIG_VAR(radar_hack_vars::Enabled));
+        setDropDownSelectedIndex(mainMenu, "radar_hack_players", !GET_CONFIG_VAR(radar_hack_vars::OnlyEnemies));
+        setDropDownSelectedIndex(mainMenu, "radar_hack_bomb", !GET_CONFIG_VAR(radar_hack_vars::ShowBomb));
+        setDropDownSelectedIndex(mainMenu, "smoke_timer", !GET_CONFIG_VAR(grenade_timer_vars::SmokeTimerEnabled));
+        setDropDownSelectedIndex(mainMenu, "molotov_timer", !GET_CONFIG_VAR(grenade_timer_vars::MolotovTimerEnabled));
     }
 
     template <typename ConfigVariable>

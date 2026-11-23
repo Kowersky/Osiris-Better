@@ -4,6 +4,7 @@
 #include <CS2/Classes/Entities/C_CSGO_PreviewPlayer.h>
 #include <CS2/Classes/Entities/C_CSPlayerPawn.h>
 #include <CS2/Classes/Entities/C_Hostage.h>
+#include <CS2/Classes/Entities/C_Inferno.h>
 #include <CS2/Classes/Entities/GrenadeProjectiles.h>
 #include <CS2/Classes/Entities/WeaponEntities.h>
 #include <CS2/Classes/CPlantedC4.h>
@@ -60,7 +61,8 @@ constexpr auto kEntityClassNames = TypedStaticStringPool{}
     .add<CPlantedC4>("C_PlantedC4")
     .add<C_Hostage>("C_Hostage")
     .add<C_Item_Healthshot>("C_Item_Healthshot")
-    .add<C_CSGO_PreviewPlayer>("C_CSGO_PreviewPlayer");
+    .add<C_CSGO_PreviewPlayer>("C_CSGO_PreviewPlayer")
+    .add<C_Inferno>("C_Inferno");
 
 using EntityClasses = decltype(kEntityClassNames)::TypeList;
 

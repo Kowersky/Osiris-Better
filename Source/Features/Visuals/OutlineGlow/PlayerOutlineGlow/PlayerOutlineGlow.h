@@ -51,6 +51,9 @@ public:
         case TeamColor:
             if (const auto teamHue = teamColorModeHue(playerPawn))
                 return teamHue->toHueFloat();
+            return {};
+        case VisibilityBased:
+            return visibilityBasedColorModeHue(playerPawn);
         default:
             return {};
         }
@@ -77,6 +80,14 @@ private:
         if (const auto isEnemy = playerPawn.isEnemy(); isEnemy.has_value())
             return *isEnemy ? GET_CONFIG_VAR(outline_glow_vars::EnemyHue) : GET_CONFIG_VAR(outline_glow_vars::AllyHue);
         return {};
+    }
+
+    [[nodiscard]] Optional<color::Hue> visibilityBasedColorModeHue(auto&& playerPawn) const noexcept
+    {
+        const color::HueInteger hue = playerPawn.isSpotted()
+            ? GET_CONFIG_VAR(outline_glow_vars::VisibleHue)
+            : GET_CONFIG_VAR(outline_glow_vars::NotVisibleHue);
+        return hue.toHueFloat();
     }
 
     [[nodiscard]] Optional<color::Hue> healthBasedColorModeHue(auto&& playerPawn) const noexcept

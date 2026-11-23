@@ -31,6 +31,9 @@ namespace outline_glow_params
     constexpr HueVariableParams kAllyHue{.min{0}, .max{359}, .def{120}};
     constexpr HueVariableParams kEnemyHue{.min{0}, .max{359}, .def{0}};
 
+    constexpr HueVariableParams kVisibleHue{.min{0}, .max{359}, .def{120}};
+    constexpr HueVariableParams kNotVisibleHue{.min{0}, .max{359}, .def{0}};
+
     constexpr HueVariableParams kMolotovHue{.min{20}, .max{60}, .def{40}};
     constexpr HueVariableParams kFlashbangHue{.min{191}, .max{250}, .def{219}};
     constexpr HueVariableParams kHEGrenadeHue{.min{300}, .max{359}, .def{359}};

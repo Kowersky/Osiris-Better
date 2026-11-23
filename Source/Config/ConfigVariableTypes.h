@@ -10,6 +10,8 @@
 #include <Features/Visuals/ModelGlow/ModelGlowConfigVariables.h>
 #include <Features/Visuals/OutlineGlow/OutlineGlowConfigVariables.h>
 #include <Features/Visuals/PlayerInfoInWorld/PlayerInfoInWorldConfigVariables.h>
+#include <Features/Visuals/GrenadeTimer/GrenadeTimerConfigVariables.h>
+#include <Features/Visuals/RadarHack/RadarHackConfigVariables.h>
 #include <Features/Visuals/ViewmodelMod/ViewmodelModConfigVariables.h>
 #include <Utils/TypeList.h>
 
@@ -44,6 +46,8 @@ using ConfigVariableTypes = TypeList<
     model_glow_vars::HighHealthHue,
     model_glow_vars::AllyHue,
     model_glow_vars::EnemyHue,
+    model_glow_vars::VisibleHue,
+    model_glow_vars::NotVisibleHue,
     model_glow_vars::MolotovHue,
     model_glow_vars::FlashbangHue,
     model_glow_vars::HEGrenadeHue,
@@ -72,6 +76,8 @@ using ConfigVariableTypes = TypeList<
     outline_glow_vars::HighHealthHue,
     outline_glow_vars::AllyHue,
     outline_glow_vars::EnemyHue,
+    outline_glow_vars::VisibleHue,
+    outline_glow_vars::NotVisibleHue,
     outline_glow_vars::MolotovHue,
     outline_glow_vars::FlashbangHue,
     outline_glow_vars::HEGrenadeHue,
@@ -94,9 +100,18 @@ using ConfigVariableTypes = TypeList<
     player_info_vars::HostagePickupIconEnabled,
     player_info_vars::HostageRescueIconEnabled,
     player_info_vars::BlindedIconEnabled,
+    player_info_vars::PlayerNameEnabled,
+    player_info_vars::HealthBarEnabled,
+    player_info_vars::PlayerDistanceEnabled,
+    player_info_vars::EspBoxEnabled,
     viewmodel_mod_vars::Enabled,
     viewmodel_mod_vars::ModifyFov,
     viewmodel_mod_vars::Fov,
     no_scope_inaccuracy_vis_vars::Enabled,
-    BombPlantAlertEnabled
+    BombPlantAlertEnabled,
+    radar_hack_vars::Enabled,
+    radar_hack_vars::OnlyEnemies,
+    radar_hack_vars::ShowBomb,
+    grenade_timer_vars::SmokeTimerEnabled,
+    grenade_timer_vars::MolotovTimerEnabled
 >;

@@ -8,9 +8,16 @@
 
 #include "ActiveWeaponAmmo/ActiveWeaponAmmoPanelParams.h"
 #include "ActiveWeaponAmmo/PlayerActiveWeaponAmmoPanel.h"
+#include "EspBox/EspBoxPanel.h"
+#include "HealthBar/HealthBarPanel.h"
+#include "HealthBar/HealthBarPanelParams.h"
+#include "PlayerDistance/PlayerDistancePanel.h"
+#include "PlayerDistance/PlayerDistancePanelParams.h"
 #include "PlayerHealth/PlayerHealthPanel.h"
 #include "PlayerHealth/PlayerHealthPanelParams.h"
 #include "PlayerInfoContainerPanelParams.h"
+#include "PlayerName/PlayerNamePanel.h"
+#include "PlayerName/PlayerNamePanelParams.h"
 #include "PlayerPositionArrow/PlayerPositionArrowPanel.h"
 #include "PlayerPositionArrow/PlayerPositionArrowPanelParams.h"
 #include "PlayerStateIcons/PlayerStateIconsPanel.h"
@@ -39,6 +46,53 @@ public:
         uiPanel.setTransformOrigin(kTransformOriginX, kTransformOriginY);
         uiPanel.setFlowChildren(kChildrenFlow);
         return utils::lvalue<decltype(uiPanel)>(uiPanel);
+    }
+
+    void createPanel(std::type_identity<PlayerNamePanel<HookContext>>, auto&& containerPanel) const noexcept
+    {
+        using namespace player_name_panel_params;
+
+        auto&& label = hookContext.panelFactory().createLabelPanel(containerPanel).uiPanel();
+        label.setFont(kFont);
+        label.setAlign(kAlignment);
+        label.setTextShadow(kShadowParams);
+        label.setColor(kColor);
+    }
+
+    void createPanel(std::type_identity<HealthBarPanel<HookContext>>, auto&& containerPanel) const noexcept
+    {
+        using namespace health_bar_panel_params;
+
+        auto&& barContainer = hookContext.panelFactory().createPanel(containerPanel).uiPanel();
+        barContainer.setAlign(container_panel_params::kAlignment);
+        barContainer.setWidth(container_panel_params::kWidth);
+        barContainer.setHeight(container_panel_params::kHeight);
+        barContainer.setMargin(container_panel_params::kMargin);
+        barContainer.setBackgroundColor(cs2::Color{0, 0, 0, 180});
+
+        auto&& barFill = hookContext.panelFactory().createPanel(barContainer).uiPanel();
+        barFill.setHeight(bar_fill_params::kHeight);
+        barFill.setBackgroundColor(cs2::kColorGreen);
+    }
+
+    void createPanel(std::type_identity<PlayerDistancePanel<HookContext>>, auto&& containerPanel) const noexcept
+    {
+        using namespace player_distance_panel_params;
+
+        auto&& label = hookContext.panelFactory().createLabelPanel(containerPanel).uiPanel();
+        label.setFont(kFont);
+        label.setAlign(kAlignment);
+        label.setTextShadow(kShadowParams);
+        label.setColor(kColor);
+    }
+
+    void createPanel(std::type_identity<EspBoxPanel<HookContext>>, auto&& containerPanel) const noexcept
+    {
+        auto&& boxPanel = hookContext.panelFactory().createPanel(containerPanel).uiPanel();
+        boxPanel.setWidth(cs2::CUILength::pixels(70));
+        boxPanel.setHeight(cs2::CUILength::pixels(140));
+        boxPanel.setPosition(cs2::CUILength::pixels(93), cs2::CUILength::pixels(-140));
+        boxPanel.setBorder(cs2::CUILength::pixels(2), cs2::Color{255, 50, 50, 220});
     }
 
     void createPanel(std::type_identity<PlayerPositionArrowPanel<HookContext>>, auto&& containerPanel) const noexcept

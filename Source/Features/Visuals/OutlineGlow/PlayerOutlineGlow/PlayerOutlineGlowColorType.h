@@ -6,5 +6,6 @@ enum class PlayerOutlineGlowColorType : std::uint8_t {
     PlayerOrTeamColor,
     TeamColor,
     HealthBased,
-    EnemyAlly
+    EnemyAlly,
+    VisibilityBased
 };
