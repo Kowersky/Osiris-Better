@@ -165,7 +165,6 @@ private:
         configConversion.boolean(u8"PlayerName", loadVariable<player_info_vars::PlayerNameEnabled>(), saveVariable<player_info_vars::PlayerNameEnabled>());
         configConversion.boolean(u8"HealthBar", loadVariable<player_info_vars::HealthBarEnabled>(), saveVariable<player_info_vars::HealthBarEnabled>());
         configConversion.boolean(u8"PlayerDistance", loadVariable<player_info_vars::PlayerDistanceEnabled>(), saveVariable<player_info_vars::PlayerDistanceEnabled>());
-        configConversion.boolean(u8"EspBox", loadVariable<player_info_vars::EspBoxEnabled>(), saveVariable<player_info_vars::EspBoxEnabled>());
         configConversion.endObject();
 
         configConversion.beginObject(u8"RadarHack");

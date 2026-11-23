@@ -6,7 +6,6 @@ All notable changes to Osiris Better are documented here.
 
 ### Added
 - **Grenade Timer** — visual countdown for active molotov/incendiary grenades (`C_Inferno` entity tracking)
-- **ESP Box** — bounding box panel for enemy players
 - **Health Bar** — colored health bar in player ESP panels
 - **Player Name** — name label in player ESP panels
 - **Player Distance** — distance readout in player ESP panels

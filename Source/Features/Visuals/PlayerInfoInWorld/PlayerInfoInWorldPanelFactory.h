@@ -8,7 +8,6 @@
 
 #include "ActiveWeaponAmmo/ActiveWeaponAmmoPanelParams.h"
 #include "ActiveWeaponAmmo/PlayerActiveWeaponAmmoPanel.h"
-#include "EspBox/EspBoxPanel.h"
 #include "HealthBar/HealthBarPanel.h"
 #include "HealthBar/HealthBarPanelParams.h"
 #include "PlayerDistance/PlayerDistancePanel.h"
@@ -84,15 +83,6 @@ public:
         label.setAlign(kAlignment);
         label.setTextShadow(kShadowParams);
         label.setColor(kColor);
-    }
-
-    void createPanel(std::type_identity<EspBoxPanel<HookContext>>, auto&& containerPanel) const noexcept
-    {
-        auto&& boxPanel = hookContext.panelFactory().createPanel(containerPanel).uiPanel();
-        boxPanel.setWidth(cs2::CUILength::pixels(70));
-        boxPanel.setHeight(cs2::CUILength::pixels(140));
-        boxPanel.setPosition(cs2::CUILength::pixels(93), cs2::CUILength::pixels(-140));
-        boxPanel.setBorder(cs2::CUILength::pixels(2), cs2::Color{255, 50, 50, 220});
     }
 
     void createPanel(std::type_identity<PlayerPositionArrowPanel<HookContext>>, auto&& containerPanel) const noexcept

@@ -28,6 +28,5 @@ CONFIG_VARIABLE(BlindedIconEnabled, bool, true);
 CONFIG_VARIABLE(PlayerNameEnabled, bool, false);
 CONFIG_VARIABLE(HealthBarEnabled, bool, false);
 CONFIG_VARIABLE(PlayerDistanceEnabled, bool, false);
-CONFIG_VARIABLE(EspBoxEnabled, bool, false);
 
 }

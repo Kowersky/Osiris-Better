@@ -536,8 +536,6 @@ u8R"(
   createYesNoDropDown(espSection, "Pasek zdrowia", 'visuals', 'player_info_health_bar');
   separator(espSection);
   createYesNoDropDown(espSection, "Odleglosc", 'visuals', 'player_info_distance');
-  separator(espSection);
-  createYesNoDropDown(espSection, "ESP Box", 'visuals', 'player_info_esp_box');
 
   var outlineGlowTab = createSubTab(visuals, 'outline_glow');
 

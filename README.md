@@ -8,7 +8,6 @@ Enhanced fork of [Osiris](https://github.com/danielkrupinski/Osiris) — a free 
 
 ### Visuals
 - **Player ESP** — in-world player info panels with:
-  - ESP box
   - Health bar
   - Player name
   - Player distance
@@ -19,7 +18,7 @@ Enhanced fork of [Osiris](https://github.com/danielkrupinski/Osiris) — a free 
   - Player bomb icon
 - **Model Glow** — player, weapon, grenade, bomb (ticking & dropped), defuse kit glow with customizable color modes
 - **Outline Glow** — player, weapon, grenade, bomb, hostage, defuse kit outline with color mode options
-- **Grenade Timer** — visual timer for active grenades (molotov/incendiary)
+- **Grenade Timer** — visual indicator for active smoke and molotov/incendiary grenades
 - **Radar Hack** — reveal all players on the radar
 
 ### HUD

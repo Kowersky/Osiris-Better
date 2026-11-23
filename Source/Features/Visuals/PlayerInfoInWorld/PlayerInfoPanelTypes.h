@@ -3,7 +3,6 @@
 #include <tuple>
 
 #include "ActiveWeaponAmmo/PlayerActiveWeaponAmmoPanel.h"
-#include "EspBox/EspBoxPanel.h"
 #include "HealthBar/HealthBarPanel.h"
 #include "PlayerDistance/PlayerDistancePanel.h"
 #include "PlayerHealth/PlayerHealthPanel.h"
@@ -21,5 +20,4 @@ using PlayerInfoPanelTypes = std::tuple<
     PlayerWeaponIconPanel<HookContext>,
     PlayerActiveWeaponAmmoPanel<HookContext>,
     PlayerStateIconsPanel<HookContext>,
-    PlayerDistancePanel<HookContext>,
-    EspBoxPanel<HookContext>>;
+    PlayerDistancePanel<HookContext>>;

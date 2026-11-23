@@ -103,7 +103,6 @@ using ConfigVariableTypes = TypeList<
     player_info_vars::PlayerNameEnabled,
     player_info_vars::HealthBarEnabled,
     player_info_vars::PlayerDistanceEnabled,
-    player_info_vars::EspBoxEnabled,
     viewmodel_mod_vars::Enabled,
     viewmodel_mod_vars::ModifyFov,
     viewmodel_mod_vars::Fov,

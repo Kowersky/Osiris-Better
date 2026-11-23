@@ -63,7 +63,6 @@ private:
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, player_info_vars::PlayerNameEnabled>>(guiPanel, "player_info_name");
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, player_info_vars::HealthBarEnabled>>(guiPanel, "player_info_health_bar");
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, player_info_vars::PlayerDistanceEnabled>>(guiPanel, "player_info_distance");
-        initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, player_info_vars::EspBoxEnabled>>(guiPanel, "player_info_esp_box");
     }
 
     void initModelGlowTab(auto&& guiPanel) const
@@ -182,7 +181,6 @@ private:
         setDropDownSelectedIndex(mainMenu, "player_info_name", !GET_CONFIG_VAR(player_info_vars::PlayerNameEnabled));
         setDropDownSelectedIndex(mainMenu, "player_info_health_bar", !GET_CONFIG_VAR(player_info_vars::HealthBarEnabled));
         setDropDownSelectedIndex(mainMenu, "player_info_distance", !GET_CONFIG_VAR(player_info_vars::PlayerDistanceEnabled));
-        setDropDownSelectedIndex(mainMenu, "player_info_esp_box", !GET_CONFIG_VAR(player_info_vars::EspBoxEnabled));
     }
 
     void updateOutlineGlowTab(auto&& mainMenu) const noexcept

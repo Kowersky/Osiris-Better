@@ -6,6 +6,7 @@
 #include <GameClient/Entities/BaseEntity.h>
 #include <GameClient/Entities/BaseModelEntity.h>
 #include <GameClient/Entities/PlayerPawn.h>
+#include <GameClient/Entities/SmokeGrenadeProjectile.h>
 #include <Features/Visuals/ModelGlow/ModelGlow.h>
 #include <Features/Visuals/OutlineGlow/OutlineGlow.h>
 #include <Features/Visuals/PlayerInfoInWorld/PlayerInfoInWorld.h>
@@ -65,11 +66,11 @@ private:
             applyOutlineGlow<HostageOutlineGlow>(baseEntity, entityTypeInfo);
         } else if (entityTypeInfo.isGrenadeProjectile()) {
             if (entityTypeInfo.template is<cs2::C_SmokeGrenadeProjectile>())
-                hookContext.template make<GrenadeTimer>().showSmokeTimer(entityIdentity.entity);
+                hookContext.template make<GrenadeTimer>().showSmokeTimer(baseEntity.template as<SmokeGrenadeProjectile>());
             updateModelGlow<GrenadeProjectileModelGlow>(baseEntity, entityTypeInfo);
             applyOutlineGlow<GrenadeProjectileOutlineGlow>(baseEntity, entityTypeInfo);
         } else if (entityTypeInfo.template is<cs2::C_Inferno>()) {
-            hookContext.template make<GrenadeTimer>().showMolotovTimer(entityIdentity.entity);
+            hookContext.template make<GrenadeTimer>().showMolotovTimer(baseEntity);
         } else if (entityTypeInfo.isWeapon()) {
             updateModelGlow<WeaponModelGlow>(baseEntity.template as<BaseWeapon>(), entityTypeInfo);
             applyOutlineGlow<WeaponOutlineGlow>(baseEntity, entityTypeInfo);

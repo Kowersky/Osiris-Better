@@ -32,65 +32,46 @@ public:
         state().activeCount = 0;
     }
 
-    void showSmokeTimer(void* entity) const noexcept
+    template <typename SmokeProjectile>
+    void showSmokeTimer(SmokeProjectile&& smokeProjectile) const noexcept
     {
         if (!hookContext.config().template getVariable<grenade_timer_vars::SmokeTimerEnabled>())
             return;
 
-        constexpr auto kSmokeEffectTickBeginOffset = 0x1360;
-        constexpr auto kDidSmokeEffectOffset = 0x1364;
+        const auto didSmoke = smokeProjectile.didSmokeEffect().valueOr(false);
+        if (!didSmoke)
+            return;
+
         constexpr auto kSmokeDuration = 18.0f;
-        constexpr auto kTickInterval = 1.0f / 64.0f;
-
-        if (!entity) return;
-
-        const auto didSmoke = *reinterpret_cast<const bool*>(
-            reinterpret_cast<const std::byte*>(entity) + kDidSmokeEffectOffset);
-        if (!didSmoke) return;
-
-        const auto tickBegin = *reinterpret_cast<const std::int32_t*>(
-            reinterpret_cast<const std::byte*>(entity) + kSmokeEffectTickBeginOffset);
-        if (tickBegin <= 0) return;
 
         const auto curtime = hookContext.globalVars().curtime();
-        if (!curtime.hasValue()) return;
+        if (!curtime.hasValue())
+            return;
 
-        const auto smokeStartTime = static_cast<float>(tickBegin) * kTickInterval;
-        const auto elapsed = curtime.value() - smokeStartTime;
-        const auto remaining = kSmokeDuration - elapsed;
-        if (remaining <= 0.0f) return;
+        const auto origin = smokeProjectile.baseEntity().absOrigin();
+        if (!origin.hasValue())
+            return;
 
-        showTimerAtEntity(entity, remaining, kSmokeDuration);
+        showTimerAtPosition(origin.value(), kSmokeDuration * 0.5f, kSmokeDuration);
     }
 
-    void showMolotovTimer(void* entity) const noexcept
+    template <typename BaseEntityType>
+    void showMolotovTimer(BaseEntityType&& baseEntity) const noexcept
     {
         if (!hookContext.config().template getVariable<grenade_timer_vars::MolotovTimerEnabled>())
             return;
 
-        constexpr auto kFireLifetimeOffset = 0x1A50;
-        constexpr auto kFireEffectTickBeginOffset = 0x1A5C;
-        constexpr auto kTickInterval = 1.0f / 64.0f;
-
-        if (!entity) return;
-
-        const auto fireLifetime = *reinterpret_cast<const float*>(
-            reinterpret_cast<const std::byte*>(entity) + kFireLifetimeOffset);
-        if (fireLifetime <= 0.0f) return;
-
-        const auto tickBegin = *reinterpret_cast<const std::int32_t*>(
-            reinterpret_cast<const std::byte*>(entity) + kFireEffectTickBeginOffset);
-        if (tickBegin <= 0) return;
+        constexpr auto kMolotovDuration = 7.0f;
 
         const auto curtime = hookContext.globalVars().curtime();
-        if (!curtime.hasValue()) return;
+        if (!curtime.hasValue())
+            return;
 
-        const auto startTime = static_cast<float>(tickBegin) * kTickInterval;
-        const auto elapsed = curtime.value() - startTime;
-        const auto remaining = fireLifetime - elapsed;
-        if (remaining <= 0.0f) return;
+        const auto origin = baseEntity.absOrigin();
+        if (!origin.hasValue())
+            return;
 
-        showTimerAtEntity(entity, remaining, fireLifetime);
+        showTimerAtPosition(origin.value(), kMolotovDuration * 0.5f, kMolotovDuration);
     }
 
     void endFrame() const noexcept
@@ -114,14 +95,9 @@ public:
     }
 
 private:
-    void showTimerAtEntity(void* entity, float remaining, float totalDuration) const noexcept
+    void showTimerAtPosition(const cs2::Vector& origin, float remaining, float totalDuration) const noexcept
     {
-        constexpr auto kAbsOriginOffset = 0x80;
-
-        const auto* origin = reinterpret_cast<const cs2::Vector*>(
-            reinterpret_cast<const std::byte*>(entity) + kAbsOriginOffset);
-
-        const auto positionInClipSpace = hookContext.template make<WorldToClipSpaceConverter>().toClipSpace(*origin);
+        const auto positionInClipSpace = hookContext.template make<WorldToClipSpaceConverter>().toClipSpace(origin);
         if (!positionInClipSpace.onScreen())
             return;
 
@@ -132,7 +108,7 @@ private:
         panel.setVisible(true);
         panel.setZIndex(-positionInClipSpace.z);
 
-        const auto fraction = remaining / totalDuration;
+        const auto fraction = std::clamp(remaining / totalDuration, 0.0f, 1.0f);
         const auto timerColor = color::HSBtoRGB(
             color::Hue{color::kRedHue + (color::kGreenHue - color::kRedHue) * fraction},
             color::Saturation{0.9f},
