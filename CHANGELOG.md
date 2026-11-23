@@ -14,10 +14,13 @@ All notable changes to Osiris Better are documented here.
 - **Model Glow Color Modes** — per-team and health-based color mode options for player model glow
 - **Outline Glow Color Modes** — per-team and health-based color mode options for player outline glow
 
+### Fixed
+- **Grenade Timer** — smoke and molotov timers now show accurate countdown using real game offsets (`m_nSmokeEffectTickBegin`, `m_nFireEffectTickBegin`, `m_nFireLifetime`) from cs2-dumper
+
 ### Changed
 - Bomb Timer panel reworked with improved layout and site indicator
 - Bomb Timer panel factory updated for new panel structure
-- Player info in-world panel factory expanded to support new sub-panels (ESP box, health bar, name, distance)
+- Player info in-world panel factory expanded to support new sub-panels (health bar, name, distance)
 - Config schema extended with new variable types for color modes and visual features
 - `CreateGUI.js` refactored with updated Panorama UI layout and new feature controls
 - `RenderingHookEntityLoop` updated to process `C_Inferno` entities for grenade timer
