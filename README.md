@@ -38,6 +38,15 @@ Enhanced fork of [Osiris](https://github.com/danielkrupinski/Osiris) — a free 
 ### Combat
 - **No-Scope Inaccuracy Visualization** — show inaccuracy circle when unscoped with sniper rifles
 
+## Showcase
+
+| | |
+|---|---|
+| ![ESP](screenshots/esp.webp) | ![ESP Details](screenshots/esp2.webp) |
+| ![Viewmodel](screenshots/viewmodel.webp) | ![Grenades](screenshots/grenades.png) |
+| ![Radar](screenshots/radar.png) | ![Combat](screenshots/combat.png) |
+| ![HUD](screenshots/hud.png) | ![Sound](screenshots/sound.png) |
+
 ## Requirements
 
 - **OS:** Windows 11 / Linux

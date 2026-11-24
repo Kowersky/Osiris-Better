@@ -218,13 +218,7 @@ private:
         // Obtaining the provider through HookContext keeps the production trace
         // implementation unchanged while allowing a test HookContext to supply a
         // deterministic scripted provider.
-        (void)skipEntity;
-        TraceResult noHit;
-        noHit.fraction = 1.0f;
-        noHit.endPos = end;
-        noHit.normal = {0.0f, 0.0f, 0.0f};
-        return Optional<TraceResult>{noHit};
-        // return hookContext.template make<EngineTrace>().traceGrenadeHull(start, end, skipEntity);
+        return hookContext.template make<EngineTrace>().traceGrenadeHull(start, end, skipEntity);
     }
 
     StepResult step(cs2::Vector& pos, cs2::Vector& vel, cs2::GrenadeKind kind, void* skipEntity) noexcept
