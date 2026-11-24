@@ -10,6 +10,7 @@
 #include <Features/Visuals/ModelGlow/ModelGlowConfigVariables.h>
 #include <Features/Visuals/OutlineGlow/OutlineGlowConfigVariables.h>
 #include <Features/Visuals/PlayerInfoInWorld/PlayerInfoInWorldConfigVariables.h>
+#include <Features/Visuals/GrenadePredictor/GrenadePredictorConfigVariables.h>
 #include <Features/Visuals/GrenadeTimer/GrenadeTimerConfigVariables.h>
 #include <Features/Visuals/RadarHack/RadarHackConfigVariables.h>
 #include <Features/Visuals/ViewmodelMod/ViewmodelModConfigVariables.h>
@@ -112,5 +113,10 @@ using ConfigVariableTypes = TypeList<
     radar_hack_vars::OnlyEnemies,
     radar_hack_vars::ShowBomb,
     grenade_timer_vars::SmokeTimerEnabled,
-    grenade_timer_vars::MolotovTimerEnabled
+    grenade_timer_vars::MolotovTimerEnabled,
+    grenade_predictor_vars::Enabled,
+    grenade_predictor_vars::TrajectoryHue,
+    grenade_predictor_vars::BounceHue,
+    grenade_predictor_vars::AlwaysShowLastCache,
+    grenade_predictor_vars::CacheDuration
 >;

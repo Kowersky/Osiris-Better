@@ -95,25 +95,33 @@ struct C_WeaponSCAR20 : C_CSWeaponBase {
 struct C_WeaponTaser : C_CSWeaponBase {
 };
 
+struct C_WeaponCZ75a : C_CSWeaponBase {
+};
+
 struct C_Knife : C_CSWeaponBase {
 };
 
-struct C_Flashbang : C_CSWeaponBase {
+struct C_BaseCSGrenade : C_CSWeaponBase {
+    using m_flThrowStrength = float;
+    using m_fThrowTime = float;
 };
 
-struct C_HEGrenade : C_CSWeaponBase {
+struct C_Flashbang : C_BaseCSGrenade {
 };
 
-struct C_SmokeGrenade : C_CSWeaponBase {
+struct C_HEGrenade : C_BaseCSGrenade {
 };
 
-struct C_MolotovGrenade : C_CSWeaponBase {
+struct C_SmokeGrenade : C_BaseCSGrenade {
 };
 
-struct C_IncendiaryGrenade : C_CSWeaponBase {
+struct C_MolotovGrenade : C_BaseCSGrenade {
 };
 
-struct C_DecoyGrenade : C_CSWeaponBase {
+struct C_IncendiaryGrenade : C_BaseCSGrenade {
+};
+
+struct C_DecoyGrenade : C_BaseCSGrenade {
 };
 
 struct C_C4 : C_CSWeaponBase {

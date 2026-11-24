@@ -179,7 +179,7 @@ $.Osiris = (function () {
       onactivate: "$.Osiris.navigateToSubTab('visuals', 'player_info');"
     });
 
-    $.CreatePanel('Label', playerInfoTabButton, '', { text: "Player Info In World" });
+    $.CreatePanel('Label', playerInfoTabButton, '', { text: "ESP" });
 
     var outlineGlowTabButton = $.CreatePanel('RadioButton', centerContainer, 'outline_glow_button', {
       group: "VisualsNavBar",
@@ -212,6 +212,14 @@ $.Osiris = (function () {
     });
 
     $.CreatePanel('Label', radarTabButton, '', { text: "Radar" });
+
+    var timersTabButton = $.CreatePanel('RadioButton', centerContainer, 'timers_button', {
+        group: "VisualsNavBar",
+        class: "content-navbar__tabs__btn",
+        onactivate: "$.Osiris.navigateToSubTab('visuals', 'timers');"
+    });
+
+    $.CreatePanel('Label', timersTabButton, '', { text: "Granaty" });
   };
 
   var createCombatNavbar = function () {
@@ -479,7 +487,7 @@ u8R"(
   $.Osiris.navigateToSubTab('combat', 'sniper_rifles');
 
   var hud = createTab('hud');
-  
+
   var bomb = createSection(hud, 'Bomba');
   createYesNoDropDown(bomb, "Pokaz odliczanie wybuchu bomby i miejsce", 'hud', 'bomb_timer');
   separator(bomb);
@@ -489,9 +497,9 @@ u8R"(
 
   var killfeed = createSection(hud, 'Killfeed');
   separator(killfeed);
-  createYesNoDropDown(killfeed, "Preserve My Killfeed During The Round", 'hud', 'preserve_killfeed');
+  createYesNoDropDown(killfeed, "Zachowaj killfeed podczas rundy", 'hud', 'preserve_killfeed');
 
-  var time = createSection(hud, 'Time');
+  var time = createSection(hud, 'Czas');
   separator(time);
   createYesNoDropDown(time, "Pokaz timer po rundzie", 'hud', 'postround_timer');
 
@@ -499,36 +507,8 @@ u8R"(
 
   var playerInfoTab = createSubTab(visuals, 'player_info');
 
-  var playerInfo = createSection(playerInfoTab, 'Player Info In World');
+  var playerInfo = createSection(playerInfoTab, 'Info o graczach');
   createDropDown(playerInfo, "Glowny przelacznik", 'visuals', 'player_information_through_walls', ['Wrogowie', 'Wszyscy gracze', 'Wyl']);
-
-  var playerPosition = createSection(playerInfoTab, 'Player Position');
-  createYesNoDropDown(playerPosition, "Pokaz strzalke pozycji gracza", 'visuals', 'player_info_position');
-  separator(playerPosition);
-  createDropDown(playerPosition, "Player Position Arrow Color", 'visuals', 'player_info_position_color', ['Kolor gracza / druzyny', 'Kolor druzyny']);
-
-  var playerHealth = createSection(playerInfoTab, 'Player Health');
-  createYesNoDropDown(playerHealth, "Pokaz zdrowie gracza", 'visuals', 'player_info_health');
-  separator(playerHealth);
-  createDropDown(playerHealth, "Player Health Text Color", 'visuals', 'player_info_health_color', ['Wg zdrowia', 'White']);
-
-  var playerWeapon = createSection(playerInfoTab, 'Player Weapon');
-  createYesNoDropDown(playerWeapon, "Show Player Active Weapon Icon", 'visuals', 'player_info_weapon');
-  separator(playerWeapon);
-  createYesNoDropDown(playerWeapon, "Show Player Active Weapon Ammo", 'visuals', 'player_info_weapon_clip');
-  separator(playerWeapon);
-  createYesNoDropDown(playerWeapon, 'Show Bomb Carrier Icon', 'visuals', 'player_info_bomb_carrier');
-  separator(playerWeapon);
-  createYesNoDropDown(playerWeapon, 'Show Bomb Planting Icon', 'visuals', 'player_info_bomb_planting');
-
-  var playerIcons = createSection(playerInfoTab, 'Ikony');
-  createYesNoDropDown(playerIcons, "Show Defuse Icon", 'visuals', 'player_info_defuse');
-  separator(playerIcons);
-  createYesNoDropDown(playerIcons, 'Show Picking Up Hostage Icon', 'visuals', 'player_info_hostage_pickup');
-  separator(playerIcons);
-  createYesNoDropDown(playerIcons, 'Show Rescuing Hostage Icon', 'visuals', 'player_info_hostage_rescue');
-  separator(playerIcons);
-  createYesNoDropDown(playerIcons, 'Show Blinded By Flashbang Icon', 'visuals', 'player_info_blinded');
 
   var espSection = createSection(playerInfoTab, 'ESP');
   createYesNoDropDown(espSection, "Nazwa gracza", 'visuals', 'player_info_name');
@@ -536,6 +516,34 @@ u8R"(
   createYesNoDropDown(espSection, "Pasek zdrowia", 'visuals', 'player_info_health_bar');
   separator(espSection);
   createYesNoDropDown(espSection, "Odleglosc", 'visuals', 'player_info_distance');
+
+  var playerPosition = createSection(playerInfoTab, 'Pozycja gracza');
+  createYesNoDropDown(playerPosition, "Pokaz strzalke pozycji gracza", 'visuals', 'player_info_position');
+  separator(playerPosition);
+  createDropDown(playerPosition, "Kolor strzalki pozycji", 'visuals', 'player_info_position_color', ['Kolor gracza / druzyny', 'Kolor druzyny']);
+
+  var playerHealth = createSection(playerInfoTab, 'Zdrowie gracza');
+  createYesNoDropDown(playerHealth, "Pokaz zdrowie gracza", 'visuals', 'player_info_health');
+  separator(playerHealth);
+  createDropDown(playerHealth, "Kolor tekstu zdrowia", 'visuals', 'player_info_health_color', ['Wg zdrowia', 'Bialy']);
+
+  var playerWeapon = createSection(playerInfoTab, 'Bron gracza');
+  createYesNoDropDown(playerWeapon, "Pokaz ikone aktywnej broni", 'visuals', 'player_info_weapon');
+  separator(playerWeapon);
+  createYesNoDropDown(playerWeapon, "Pokaz amunicje aktywnej broni", 'visuals', 'player_info_weapon_clip');
+  separator(playerWeapon);
+  createYesNoDropDown(playerWeapon, "Pokaz ikone nosiciela bomby", 'visuals', 'player_info_bomb_carrier');
+  separator(playerWeapon);
+  createYesNoDropDown(playerWeapon, "Pokaz ikone podkladania bomby", 'visuals', 'player_info_bomb_planting');
+
+  var playerIcons = createSection(playerInfoTab, 'Ikony gracza');
+  createYesNoDropDown(playerIcons, "Pokaz ikone rozbrajania", 'visuals', 'player_info_defuse');
+  separator(playerIcons);
+  createYesNoDropDown(playerIcons, "Pokaz ikone podnoszenia zakladnika", 'visuals', 'player_info_hostage_pickup');
+  separator(playerIcons);
+  createYesNoDropDown(playerIcons, "Pokaz ikone ratowania zakladnika", 'visuals', 'player_info_hostage_rescue');
+  separator(playerIcons);
+  createYesNoDropDown(playerIcons, "Pokaz ikone oslepienia flashbangiem", 'visuals', 'player_info_blinded');
 
   var outlineGlowTab = createSubTab(visuals, 'outline_glow');
 
@@ -621,7 +629,7 @@ u8R"(
   createPlayerModelGlowPreview(playerModelGlowPreview, 'ModelGlowPreviewPlayerTT', 'ModelGlowPreviewPlayerTTLabel', 'agents/models/tm_professional/tm_professional_varf.vmdl', makeFauxItemId(7, 921));
   createPlayerModelGlowPreview(playerModelGlowPreview, 'ModelGlowPreviewPlayerCT', 'ModelGlowPreviewPlayerCTLabel', 'agents/models/ctm_st6/ctm_st6_variante.vmdl', makeFauxItemId(9, 819));
 
-  $.CreatePanel('Label', modelGlowPreview, '', { style: 'horizontal-align: center; margin-top: 20px;', text: 'Bronie na ziemi' });
+  $.CreatePanel('Label', modelGlowPreview, '', { style: 'horizontal-align: center; margin-top: 20px;', text: 'Podglad broni na ziemi' });
 
   var weaponModelGlowPreview = $.CreatePanel('Panel', modelGlowPreview, '', { style: 'flow-children: right;' });
 
@@ -692,10 +700,10 @@ u8R"(
 )"
 // split the string literal because MSVC does not support string literals longer than 16k chars - error C2026
 u8R"(
-  var weaponModelGlow = createSection(modelGlowTab, 'Weapons');
-  createYesNoDropDown(weaponModelGlow, "Glow Weapon Models on Ground", 'visuals', 'weapon_model_glow');
+  var weaponModelGlow = createSection(modelGlowTab, 'Bronie');
+  createYesNoDropDown(weaponModelGlow, "Podswietlanie modeli broni na ziemi", 'visuals', 'weapon_model_glow');
   separator(weaponModelGlow);
-  createYesNoDropDown(weaponModelGlow, "Glow Grenade Projectile Models", 'visuals', 'grenade_proj_model_glow');
+  createYesNoDropDown(weaponModelGlow, "Podswietlanie modeli granatow", 'visuals', 'grenade_proj_model_glow');
   separator(weaponModelGlow);
   separator(weaponModelGlow);
   createHueSlider(weaponModelGlow, "Odcien flashbanga", 'model_glow_flashbang_hue', 191, 250);
@@ -707,11 +715,11 @@ u8R"(
   createHueSlider(weaponModelGlow, "Odcien molotova", 'model_glow_molotov_hue', 20, 60);
 
   var bombModelGlow = createSection(modelGlowTab, 'Bomba i zestaw rozbrajania');
-  createYesNoDropDown(bombModelGlow, "Glow Dropped Bomb Model", 'visuals', 'dropped_bomb_model_glow');
+  createYesNoDropDown(bombModelGlow, "Podswietlanie modelu bomby na ziemi", 'visuals', 'dropped_bomb_model_glow');
   separator(bombModelGlow);
-  createYesNoDropDown(bombModelGlow, "Glow Ticking Bomb Model", 'visuals', 'ticking_bomb_model_glow');
+  createYesNoDropDown(bombModelGlow, "Podswietlanie modelu podlozonej bomby", 'visuals', 'ticking_bomb_model_glow');
   separator(bombModelGlow);
-  createYesNoDropDown(bombModelGlow, "Glow Defuse Kit Models on Ground", 'visuals', 'defuse_kit_model_glow');
+  createYesNoDropDown(bombModelGlow, "Podswietlanie modeli zestawow rozbrajania", 'visuals', 'defuse_kit_model_glow');
   separator(bombModelGlow);
   separator(bombModelGlow);
   createHueSlider(bombModelGlow, "Odcien bomby na ziemi", 'model_glow_dropped_bomb_hue', 0, 359);
@@ -743,13 +751,13 @@ u8R"(
 
   var viewmodelTab = $.CreatePanel('Panel', _viewmodelTab, '', { style: 'flow-children: down; margin-right: 40px; overflow: squish scroll;' });
 
-  var viewmodelModification = createSection(viewmodelTab, 'Viewmodel Modification');
+  var viewmodelModification = createSection(viewmodelTab, 'Modyfikacja viewmodelu');
   createOnOffDropDown(viewmodelModification, "Glowny przelacznik", 'visuals', 'viewmodel_mod');
 
-  var viewmodelFov = createSection(viewmodelTab, 'Viewmodel Fov');
-  createYesNoDropDown(viewmodelFov, "Modify Viewmodel Fov", 'visuals', 'viewmodel_fov_mod');
+  var viewmodelFov = createSection(viewmodelTab, 'Pole widzenia viewmodelu');
+  createYesNoDropDown(viewmodelFov, "Zmien FOV viewmodelu", 'visuals', 'viewmodel_fov_mod');
   separator(viewmodelFov);
-  createSlider(viewmodelFov, "Fov", 'viewmodel_fov', 40, 90);
+  createSlider(viewmodelFov, "FOV", 'viewmodel_fov', 40, 90);
 
   var radarTab = createSubTab(visuals, 'radar');
   var radarSection = createSection(radarTab, 'Radar Hack');
@@ -759,7 +767,16 @@ u8R"(
   separator(radarSection);
   createYesNoDropDown(radarSection, "Pokazuj bombe na mapie", 'visuals', 'radar_hack_bomb');
 
-  var grenadeTimerSection = createSection(radarTab, 'Grenade Timer');
+  var timersTab = createSubTab(visuals, 'timers');
+
+  var grenadePredictorSection = createSection(timersTab, 'Predykcja trajektorii');
+  createYesNoDropDown(grenadePredictorSection, "Grenade Predictor", 'visuals', 'grenade_predictor');
+  separator(grenadePredictorSection);
+  createHueSlider(grenadePredictorSection, "Odcien trajektorii", 'grenade_predictor_trajectory_hue', 0, 359);
+  separator(grenadePredictorSection);
+  createHueSlider(grenadePredictorSection, "Odcien odbicia", 'grenade_predictor_bounce_hue', 0, 359);
+
+  var grenadeTimerSection = createSection(timersTab, 'Timery granatow');
   createYesNoDropDown(grenadeTimerSection, "Timer dymu", 'visuals', 'smoke_timer');
   separator(grenadeTimerSection);
   createYesNoDropDown(grenadeTimerSection, "Timer molotova", 'visuals', 'molotov_timer');
@@ -767,22 +784,22 @@ u8R"(
   $.Osiris.navigateToSubTab('visuals', 'player_info');
 
   var sound = createTab('sound');
-  
-  var playerSoundVisualization = createSection(sound, 'Player Sound Visualization');
+
+  var playerSoundVisualization = createSection(sound, 'Dzwiek gracza');
   separator(playerSoundVisualization);
-  createYesNoDropDown(playerSoundVisualization, "Visualize Player Footstep Sound", 'sound', 'visualize_player_footsteps');
+  createYesNoDropDown(playerSoundVisualization, "Wizualizuj kroki gracza", 'sound', 'visualize_player_footsteps');
 
-  var bombSoundVisualization = createSection(sound, 'Bomb Sound Visualization');
-  createYesNoDropDown(bombSoundVisualization, "Visualize Bomb Plant Sound", 'sound', 'visualize_bomb_plant');
+  var bombSoundVisualization = createSection(sound, 'Dzwiek bomby');
+  createYesNoDropDown(bombSoundVisualization, "Wizualizuj dzwiek podkladania bomby", 'sound', 'visualize_bomb_plant');
   separator(bombSoundVisualization);
-  createYesNoDropDown(bombSoundVisualization, "Visualize Bomb Beep Sound", 'sound', 'visualize_bomb_beep');
+  createYesNoDropDown(bombSoundVisualization, "Wizualizuj dzwiek pikania bomby", 'sound', 'visualize_bomb_beep');
   separator(bombSoundVisualization);
-  createYesNoDropDown(bombSoundVisualization, "Visualize Bomb Defuse Sound", 'sound', 'visualize_bomb_defuse');
+  createYesNoDropDown(bombSoundVisualization, "Wizualizuj dzwiek rozbrajania bomby", 'sound', 'visualize_bomb_defuse');
 
-  var weaponSoundVisualization = createSection(sound, 'Weapon Sound Visualization');
-  createYesNoDropDown(weaponSoundVisualization, "Visualize Weapon Scope Sound", 'sound', 'visualize_scope_sound');
+  var weaponSoundVisualization = createSection(sound, 'Dzwiek broni');
+  createYesNoDropDown(weaponSoundVisualization, "Wizualizuj dzwiek lunety", 'sound', 'visualize_scope_sound');
   separator(weaponSoundVisualization);
-  createYesNoDropDown(weaponSoundVisualization, "Visualize Weapon Reload Sound", 'sound', 'visualize_reload_sound');
+  createYesNoDropDown(weaponSoundVisualization, "Wizualizuj dzwiek przeladowania", 'sound', 'visualize_reload_sound');
 
   $.Osiris.navigateToTab('hud');
 })();

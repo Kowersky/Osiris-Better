@@ -244,6 +244,20 @@
     <ClInclude Include="Features\Visuals\ViewmodelMod\ViewmodelMod.h" />
     <ClInclude Include="Features\Visuals\ViewmodelMod\ViewmodelModConfigVariables.h" />
     <ClInclude Include="Features\Visuals\ViewmodelMod\ViewmodelModParams.h" />
+    <ClInclude Include="Features\Visuals\GrenadePrediction\GrenadeKind.h" />
+    <ClInclude Include="Features\Visuals\GrenadePrediction\GrenadeLaunchSnapshot.h" />
+    <ClInclude Include="Features\Visuals\GrenadePrediction\GrenadePrediction.h" />
+    <ClInclude Include="Features\Visuals\GrenadePrediction\GrenadePredictionCondition.h" />
+    <ClInclude Include="Features\Visuals\GrenadePrediction\GrenadePredictionConfigVariables.h" />
+    <ClInclude Include="Features\Visuals\GrenadePrediction\GrenadePredictionContext.h" />
+    <ClInclude Include="Features\Visuals\GrenadePrediction\GrenadePredictionParams.h" />
+    <ClInclude Include="Features\Visuals\GrenadePrediction\GrenadePredictionState.h" />
+    <ClInclude Include="Features\Visuals\GrenadePrediction\GrenadeSimulator.h" />
+    <ClInclude Include="Features\Visuals\GrenadePrediction\Trajectory.h" />
+    <ClInclude Include="Features\Visuals\GrenadePrediction\TrajectoryLineSegment.h" />
+    <ClInclude Include="Features\Visuals\GrenadePredictor\GrenadePredictor.h" />
+    <ClInclude Include="Features\Visuals\GrenadePredictor\GrenadePredictorConfigVariables.h" />
+    <ClInclude Include="Features\Visuals\GrenadePredictor\GrenadePredictorState.h" />
     <ClInclude Include="Features\Visuals\VisualFeaturesStates.h" />
     <ClInclude Include="GameClient\ConVars\ConVarsBase.h" />
     <ClInclude Include="GameClient\ConVars\ConVarTypes.h" />
@@ -270,7 +284,10 @@
     <ClInclude Include="GameClient\Entities\SmokeGrenadeProjectile.h" />
     <ClInclude Include="GameClient\Entities\TeamNumber.h" />
     <ClInclude Include="GameClient\Entities\WeaponServices.h" />
+    <ClInclude Include="GameClient\Entities\PlayerMovementServices.h" />
     <ClInclude Include="GameClient\Entities\WeaponVData.h" />
+    <ClInclude Include="GameClient\EngineTrace\EngineTrace.h" />
+    <ClInclude Include="GameClient\EngineTrace\EngineTraceTypes.h" />
     <ClInclude Include="GameClient\EntitySystem\EntityHandle.h" />
     <ClInclude Include="GameClient\EntitySystem\EntityIdentity.h" />
     <ClInclude Include="GameClient\EntitySystem\EntitySystem.h" />
@@ -388,6 +405,7 @@
     <ClInclude Include="MemoryPatterns\PatternTypes\UiEnginePatternTypes.h" />
     <ClInclude Include="MemoryPatterns\PatternTypes\UiItem3dPanelPatternTypes.h" />
     <ClInclude Include="MemoryPatterns\PatternTypes\UiPanelPatternTypes.h" />
+    <ClInclude Include="MemoryPatterns\PatternTypes\EngineTracePatternTypes.h" />
     <ClInclude Include="MemoryPatterns\PatternTypes\WeaponPatternTypes.h" />
     <ClInclude Include="MemoryPatterns\PatternTypes\WeaponServicesPatternTypes.h" />
     <ClInclude Include="MemoryPatterns\PatternTypes\WeaponVDataPatternTypes.h" />
@@ -554,6 +572,7 @@
     <ClInclude Include="Utils\TypedStaticStringPool.h" />
     <ClInclude Include="Utils\TypeIndex.h" />
     <ClInclude Include="Utils\TypeList.h" />
+    <ClInclude Include="Utils\Math.h" />
     <ClInclude Include="Utils\Wcslen.h" />
     <ClInclude Include="Verification\Verifier.h" />
     <ClInclude Include="Verification\VerifyMacros.h" />

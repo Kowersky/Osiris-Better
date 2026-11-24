@@ -173,6 +173,22 @@ private:
         configConversion.boolean(u8"ShowBomb", loadVariable<radar_hack_vars::ShowBomb>(), saveVariable<radar_hack_vars::ShowBomb>());
         configConversion.endObject();
 
+        configConversion.beginObject(u8"GrenadePredictor");
+        configConversion.boolean(u8"Enabled", loadVariable<grenade_predictor_vars::Enabled>(), saveVariable<grenade_predictor_vars::Enabled>());
+        configConversion.uint(u8"TrajectoryHue", loadVariable<grenade_predictor_vars::TrajectoryHue>(), saveVariable<grenade_predictor_vars::TrajectoryHue>());
+        configConversion.uint(u8"BounceHue", loadVariable<grenade_predictor_vars::BounceHue>(), saveVariable<grenade_predictor_vars::BounceHue>());
+        configConversion.boolean(u8"AlwaysShowLastCache", loadVariable<grenade_predictor_vars::AlwaysShowLastCache>(), saveVariable<grenade_predictor_vars::AlwaysShowLastCache>());
+        configConversion.uint(u8"CacheDuration",
+            [this](std::uint64_t value) {
+                float floatValue = static_cast<float>(value) * 0.1f;
+                floatValue = std::clamp(floatValue, grenade_predictor_vars::CacheDuration::ValueType::kMin, grenade_predictor_vars::CacheDuration::ValueType::kMax);
+                hookContext.config().template setVariableWithoutAutoSave<grenade_predictor_vars::CacheDuration>(grenade_predictor_vars::CacheDuration::ValueType{floatValue});
+            },
+            [this]() -> std::uint64_t {
+                return static_cast<std::uint64_t>(static_cast<float>(GET_CONFIG_VAR(grenade_predictor_vars::CacheDuration)) * 10.0f + 0.5f);
+            });
+        configConversion.endObject();
+
         configConversion.beginObject(u8"GrenadeTimer");
         configConversion.boolean(u8"SmokeTimer", loadVariable<grenade_timer_vars::SmokeTimerEnabled>(), saveVariable<grenade_timer_vars::SmokeTimerEnabled>());
         configConversion.boolean(u8"MolotovTimer", loadVariable<grenade_timer_vars::MolotovTimerEnabled>(), saveVariable<grenade_timer_vars::MolotovTimerEnabled>());
@@ -240,6 +256,8 @@ private:
                     hookContext.config().template setVariableWithoutAutoSave<ConfigVariable>(typename ConfigVariable::ValueType{std::clamp(hue, ConfigVariable::ValueType::kMin, ConfigVariable::ValueType::kMax)});
                 } else if constexpr (std::is_same_v<std::uint8_t, typename ConfigVariable::ValueType::ValueType>) {
                     hookContext.config().template setVariableWithoutAutoSave<ConfigVariable>(typename ConfigVariable::ValueType{std::clamp(saturateCast<std::uint8_t>(value), ConfigVariable::ValueType::kMin, ConfigVariable::ValueType::kMax)});
+                } else if constexpr (std::is_same_v<float, typename ConfigVariable::ValueType::ValueType>) {
+                    hookContext.config().template setVariableWithoutAutoSave<ConfigVariable>(typename ConfigVariable::ValueType{std::clamp(static_cast<float>(value), ConfigVariable::ValueType::kMin, ConfigVariable::ValueType::kMax)});
                 } else {
                     static_assert(!std::is_same_v<ConfigVariable, ConfigVariable>, "Unsupported type");
                 }

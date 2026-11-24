@@ -3,7 +3,9 @@
 #include <cstdint>
 
 #include <CS2/Classes/Entities/C_CSWeaponBase.h>
+#include <CS2/Classes/Entities/WeaponEntities.h>
 #include <CS2/Classes/CCSWeaponBaseVData.h>
+#include <Features/Visuals/GrenadePrediction/GrenadeKind.h>
 #include <MemoryPatterns/PatternTypes/WeaponPatternTypes.h>
 #include <MemoryPatterns/PatternTypes/WeaponVDataPatternTypes.h>
 #include "BaseEntity.h"
@@ -57,6 +59,18 @@ public:
     [[nodiscard]] auto getName() const noexcept
     {
         return vData().name().valueOr(nullptr);
+    }
+
+    [[nodiscard]] Optional<cs2::GrenadeKind> grenadeKind() const noexcept
+    {
+        const auto typeInfo = baseEntity().classify();
+        if (typeInfo.template is<cs2::C_Flashbang>()) return cs2::GrenadeKind::Flashbang;
+        if (typeInfo.template is<cs2::C_HEGrenade>()) return cs2::GrenadeKind::HEGrenade;
+        if (typeInfo.template is<cs2::C_SmokeGrenade>()) return cs2::GrenadeKind::SmokeGrenade;
+        if (typeInfo.template is<cs2::C_MolotovGrenade>()) return cs2::GrenadeKind::Molotov;
+        if (typeInfo.template is<cs2::C_IncendiaryGrenade>()) return cs2::GrenadeKind::Incendiary;
+        if (typeInfo.template is<cs2::C_DecoyGrenade>()) return cs2::GrenadeKind::Decoy;
+        return {};
     }
 
     [[nodiscard]] auto clipAmmo() const noexcept

@@ -5,6 +5,7 @@
 #include <optional>
 
 #include <CS2/Classes/Color.h>
+#include <CS2/Classes/Vector.h>
 #include <CS2/Classes/Entities/C_CSPlayerPawn.h>
 #include <CS2/Classes/Entities/CCSPlayerController.h>
 #include <CS2/Classes/ConVarTypes.h>
@@ -16,6 +17,7 @@
 #include "BaseEntity.h"
 #include "C4.h"
 #include "HostageServices.h"
+#include <GameClient/Entities/PlayerMovementServices.h>
 #include "WeaponServices.h"
 
 class EntityFromHandleFinder;
@@ -62,6 +64,11 @@ public:
         return weaponServices().weapons();
     }
 
+    [[nodiscard]] decltype(auto) movementServices() const noexcept
+    {
+        return hookContext.template make<PlayerMovementServices>(playerPawn);
+    }
+
     [[nodiscard]] TeamNumber teamNumber() const noexcept
     {
         return baseEntity().teamNumber();
@@ -93,6 +100,11 @@ public:
     [[nodiscard]] decltype(auto) absOrigin() const noexcept
     {
         return baseEntity().absOrigin();
+    }
+
+    [[nodiscard]] decltype(auto) absVelocity() const noexcept
+    {
+        return baseEntity().absVelocity();
     }
 
     [[nodiscard]] bool isControlledByLocalPlayer() const noexcept
@@ -184,6 +196,11 @@ public:
     [[nodiscard]] decltype(auto) getActiveWeapon() const noexcept
     {
         return weaponServices().getActiveWeapon();
+    }
+
+    [[nodiscard]] auto eyeAngles() const noexcept
+    {
+        return hookContext.patternSearchResults().template get<OffsetToEyeAngles>().of(playerPawn).toOptional();
     }
 
     [[nodiscard]] auto getSceneObjectUpdater() const noexcept

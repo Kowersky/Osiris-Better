@@ -64,7 +64,9 @@ public:
         if (remaining <= 0.0f)
             return;
 
-        showTimerAtPosition(origin.value(), remaining, kSmokeDuration);
+        auto smokeCenter = origin.value();
+        smokeCenter.z += 50.0f;
+        showTimerAtPosition(smokeCenter, remaining, kSmokeDuration);
     }
 
     template <typename BaseEntityType>
@@ -155,7 +157,8 @@ private:
 
         PanoramaTransformations{
             hookContext.panoramaTransformFactory().scale(scale),
-            hookContext.panoramaTransformFactory().translate(deviceCoordinates.getX(), deviceCoordinates.getY())
+            hookContext.panoramaTransformFactory().translate(deviceCoordinates.getX(), deviceCoordinates.getY()),
+            hookContext.panoramaTransformFactory().translate(cs2::CUILength::percent(-50), cs2::CUILength::percent(-50))
         }.applyTo(panel);
 
         state().activeCount++;

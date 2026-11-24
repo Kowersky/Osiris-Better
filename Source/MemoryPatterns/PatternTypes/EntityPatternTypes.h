@@ -17,3 +17,5 @@ STRONG_TYPE_ALIAS(OffsetToVData, EntityOffset<cs2::C_BaseEntity::m_pSubclassVDat
 STRONG_TYPE_ALIAS(OffsetToRenderComponent, EntityOffset<cs2::C_BaseEntity::m_pRenderComponent, std::int32_t>);
 STRONG_TYPE_ALIAS(OffsetToOwnerEntity, EntityOffset<cs2::C_BaseEntity::m_hOwnerEntity, std::int32_t>);
 STRONG_TYPE_ALIAS(GetAbsOriginFunction, cs2::C_BaseEntity::GetAbsOrigin*);
+STRONG_TYPE_ALIAS(OffsetToViewOffset, EntityOffset<cs2::C_BaseEntity::m_vecViewOffset, std::int32_t>);
+STRONG_TYPE_ALIAS(OffsetToAbsVelocity, EntityOffset<cs2::C_BaseEntity::m_vecAbsVelocity, std::int32_t>);

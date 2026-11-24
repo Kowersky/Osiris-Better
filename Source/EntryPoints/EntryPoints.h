@@ -44,6 +44,7 @@ int SDLHook_PeepEvents(void* events, int numevents, int action, unsigned minType
     hookContext.template make<WeaponModelGlowPreview>().onUnload();
     hookContext.template make<NoScopeInaccuracyVis>().onUnload();
     hookContext.template make<BombPlantAlert>().onUnload();
+    hookContext.template make<GrenadePredictor>().onUnload();
 
     hookContext.template make<EntitySystem>().forEachNetworkableEntityIdentity([&hookContext](const auto& entityIdentity) {
         auto&& baseEntity = hookContext.template make<BaseEntity>(static_cast<cs2::C_BaseEntity*>(entityIdentity.entity));
@@ -80,6 +81,7 @@ void ViewRenderHook_onRenderStart(cs2::CViewRender* thisptr) noexcept
     hookContext.make<KillfeedPreserver>().run();
     hookContext.make<BombStatusPanelManager>().run();
     hookContext.make<InWorldPanels>().hideUnusedPanels();
+    hookContext.make<GrenadePredictor>().run();
 
     UnloadFlag unloadFlag;
     hookContext.make<PanoramaGUI>().run(unloadFlag);

@@ -12,6 +12,7 @@
 #include <GameClient/Entities/EntityClassifier.h>
 #include <Features/Common/InWorldPanelsPerHookState.h>
 #include <Features/Common/RenderingHookEntityLoop.h>
+#include <Features/Visuals/GrenadePredictor/GrenadePredictor.h>
 #include <Features/Sound/Details/SoundWatcher.h>
 #include <Features/Common/InWorldPanelsState.h>
 #include <Features/FeaturesStates.h>

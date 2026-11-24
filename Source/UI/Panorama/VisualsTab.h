@@ -15,6 +15,7 @@
 #include "Tabs/VisualsTab/PlayerModelGlowDropdownSelectionChangeHandler.h"
 #include "Tabs/VisualsTab/PlayerOutlineGlowColorModeDropdownSelectionChangeHandler.h"
 #include "Tabs/VisualsTab/PlayerOutlineGlowDropdownSelectionChangeHandler.h"
+#include <Features/Visuals/GrenadePredictor/GrenadePredictorConfigVariables.h>
 #include <Features/Visuals/GrenadeTimer/GrenadeTimerConfigVariables.h>
 #include <Features/Visuals/RadarHack/RadarHackConfigVariables.h>
 
@@ -33,6 +34,7 @@ public:
         initOutlineGlowTab(guiPanel);
         initViewmodelTab(guiPanel);
         initRadarTab(guiPanel);
+        initGrenadesTab(guiPanel);
     }
 
     void updateFromConfig(auto&& mainMenu) const noexcept
@@ -42,6 +44,7 @@ public:
         updateModelGlowTab(mainMenu);
         updateViewmodelTab(mainMenu);
         updateRadarTab(mainMenu);
+        updateGrenadesTab(mainMenu);
     }
 
 private:
@@ -144,6 +147,13 @@ private:
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, radar_hack_vars::Enabled>>(guiPanel, "radar_hack");
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, radar_hack_vars::OnlyEnemies>>(guiPanel, "radar_hack_players");
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, radar_hack_vars::ShowBomb>>(guiPanel, "radar_hack_bomb");
+    }
+
+    void initGrenadesTab(auto&& guiPanel) const
+    {
+        initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, grenade_predictor_vars::Enabled>>(guiPanel, "grenade_predictor");
+        registerHueSliderUpdateHandler<grenade_predictor_vars::TrajectoryHue, "grenade_predictor_trajectory_hue">(guiPanel);
+        registerHueSliderUpdateHandler<grenade_predictor_vars::BounceHue, "grenade_predictor_bounce_hue">(guiPanel);
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, grenade_timer_vars::SmokeTimerEnabled>>(guiPanel, "smoke_timer");
         initDropDown<OnOffDropdownSelectionChangeHandler<HookContext, grenade_timer_vars::MolotovTimerEnabled>>(guiPanel, "molotov_timer");
     }
@@ -261,6 +271,13 @@ private:
         setDropDownSelectedIndex(mainMenu, "radar_hack", !GET_CONFIG_VAR(radar_hack_vars::Enabled));
         setDropDownSelectedIndex(mainMenu, "radar_hack_players", !GET_CONFIG_VAR(radar_hack_vars::OnlyEnemies));
         setDropDownSelectedIndex(mainMenu, "radar_hack_bomb", !GET_CONFIG_VAR(radar_hack_vars::ShowBomb));
+    }
+
+    void updateGrenadesTab(auto&& mainMenu) const noexcept
+    {
+        setDropDownSelectedIndex(mainMenu, "grenade_predictor", !GET_CONFIG_VAR(grenade_predictor_vars::Enabled));
+        updateHueSlider<grenade_predictor_vars::TrajectoryHue>(mainMenu, "grenade_predictor_trajectory_hue");
+        updateHueSlider<grenade_predictor_vars::BounceHue>(mainMenu, "grenade_predictor_bounce_hue");
         setDropDownSelectedIndex(mainMenu, "smoke_timer", !GET_CONFIG_VAR(grenade_timer_vars::SmokeTimerEnabled));
         setDropDownSelectedIndex(mainMenu, "molotov_timer", !GET_CONFIG_VAR(grenade_timer_vars::MolotovTimerEnabled));
     }
